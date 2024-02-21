@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace Caja_UNAPEC
 {
@@ -18,6 +12,7 @@ namespace Caja_UNAPEC
         {
             InitializeComponent();
         }
+
         public void InicializarFormaDePago(string Conn)
         {
             Con = new SqlConnection(Conn);
@@ -30,12 +25,10 @@ namespace Caja_UNAPEC
             ESTSelectAll();
         }
 
-
         private void ESTSelectAll()
         {
             try
             {
-
                 Con.Open();
 
                 string Select = "SELECT Nombre_FormaDePago AS Nombre, Descripcion_FormaDePago AS Descripcion FROM FormaDePago";
@@ -50,21 +43,16 @@ namespace Caja_UNAPEC
                 dtgFormaPago.Refresh();
                 dtgFormaPago.PerformLayout();
 
-
                 Con.Close();
-
             }
             catch (Exception Ex)
             {
                 Con.Close();
                 MessageBox.Show("Error al recoger la información de la base de datos \n" + Ex.Message);
             }
-
-
         }
 
-
-        private void btnFPGuardar_Click(object sender, EventArgs e)
+        private void BtnFPGuardar_Click(object sender, EventArgs e)
         {
             string Nombre = txtFPNombre.Text;
             string Descripcion = txtFPDescripcion.Text;
@@ -94,7 +82,7 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnFPModificar_Click(object sender, EventArgs e)
+        private void BtnFPModificar_Click(object sender, EventArgs e)
         {
             string ID = txtFPID.Text;
             string Nombre = txtFPNombre.Text;
@@ -102,7 +90,6 @@ namespace Caja_UNAPEC
 
             try
             {
-
                 Con.Open();
 
                 string Update = "UPDATE FormaDePago SET Nombre_FormaDePago = '" + Nombre + "', Descripcion_FormaDePago = '" + Descripcion + "' FROM FormaDePago WHERE ID_FormaDePago = '" + ID + "'";
@@ -126,7 +113,7 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnFPEliminar_Click(object sender, EventArgs e)
+        private void BtnFPEliminar_Click(object sender, EventArgs e)
         {
             string ID = txtFPID.Text;
 
@@ -155,17 +142,17 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnFPLimpiar_Click(object sender, EventArgs e)
+        private void BtnFPLimpiar_Click(object sender, EventArgs e)
         {
             LimpiarCampos();
         }
 
-        private void btnFPBuscar_Click(object sender, EventArgs e)
+        private void BtnFPBuscar_Click(object sender, EventArgs e)
         {
             ESTSelectAll();
         }
 
-        private void dtgFormaPago_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DtgFormaPago_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow Row = dtgFormaPago.CurrentRow;
 
@@ -186,9 +173,7 @@ namespace Caja_UNAPEC
             {
                 Con.Close();
                 MessageBox.Show("Error al obtener el ID del documento.\n" + Ex.Message);
-
             }
-
 
             txtFPNombre.Text = Row.Cells[0].Value.ToString();
             txtFPDescripcion.Text = Row.Cells[1].Value.ToString();
@@ -204,6 +189,7 @@ namespace Caja_UNAPEC
 
             HabilitarBotones("A");
         }
+
         private void HabilitarBotones(string C)
         {
             if (C == "A")
@@ -222,7 +208,6 @@ namespace Caja_UNAPEC
 
         private string Criterio()
         {
-
             if (cbxFPCriterio.Text == "Nombre")
             {
                 return "Nombre_FormaDePago";

@@ -99,7 +99,7 @@
             this.btnSVEliminar.TabIndex = 24;
             this.btnSVEliminar.Text = "Eliminar";
             this.btnSVEliminar.UseVisualStyleBackColor = false;
-            this.btnSVEliminar.Click += new System.EventHandler(this.btnSVEliminar_Click);
+            this.btnSVEliminar.Click += new System.EventHandler(this.BtnSVEliminar_Click);
             // 
             // btnSVGuardar
             // 
@@ -114,7 +114,7 @@
             this.btnSVGuardar.TabIndex = 23;
             this.btnSVGuardar.Text = "Guardar";
             this.btnSVGuardar.UseVisualStyleBackColor = false;
-            this.btnSVGuardar.Click += new System.EventHandler(this.btnSVGuardar_Click);
+            this.btnSVGuardar.Click += new System.EventHandler(this.BtnSVGuardar_Click);
             // 
             // btnSVModificar
             // 
@@ -129,7 +129,7 @@
             this.btnSVModificar.TabIndex = 22;
             this.btnSVModificar.Text = "Modificar";
             this.btnSVModificar.UseVisualStyleBackColor = false;
-            this.btnSVModificar.Click += new System.EventHandler(this.btnSVModificar_Click);
+            this.btnSVModificar.Click += new System.EventHandler(this.BtnSVModificar_Click);
             // 
             // btnSVLimpiar
             // 
@@ -144,7 +144,7 @@
             this.btnSVLimpiar.TabIndex = 3;
             this.btnSVLimpiar.Text = "Limpiar";
             this.btnSVLimpiar.UseVisualStyleBackColor = false;
-            this.btnSVLimpiar.Click += new System.EventHandler(this.btnSVLimpiar_Click);
+            this.btnSVLimpiar.Click += new System.EventHandler(this.BtnSVLimpiar_Click);
             // 
             // label9
             // 
@@ -269,7 +269,7 @@
             this.btnSVBuscar.TabIndex = 46;
             this.btnSVBuscar.Text = "Buscar";
             this.btnSVBuscar.UseVisualStyleBackColor = false;
-            this.btnSVBuscar.Click += new System.EventHandler(this.btnSVBuscar_Click);
+            this.btnSVBuscar.Click += new System.EventHandler(this.BtnSVBuscar_Click);
             // 
             // dtgServicios
             // 
@@ -304,7 +304,7 @@
             this.dtgServicios.RowTemplate.Height = 24;
             this.dtgServicios.Size = new System.Drawing.Size(579, 450);
             this.dtgServicios.TabIndex = 48;
-            this.dtgServicios.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgServicios_CellDoubleClick);
+            this.dtgServicios.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DtgServicios_CellDoubleClick);
             // 
             // txtSVMonto
             // 

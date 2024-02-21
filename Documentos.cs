@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace Caja_UNAPEC
 {
@@ -31,18 +25,16 @@ namespace Caja_UNAPEC
             ESTSelectAll();
         }
 
-
         private void ESTSelectAll()
         {
             try
             {
-
                 Con.Open();
 
-                string Select = "SELECT Nombre_TipoDoc AS Nombre, Descripcion_TipoDoc AS Descripcion FROM Tipo_Documento";
-                Select += " WHERE " + Criterio() + " LIKE '%" + txtDCDato.Text + "%'";
-                Select += " ORDER BY " + Criterio();
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT Nombre_TipoDoc AS Nombre, Descripcion_TipoDoc AS Descripcion FROM Tipo_Documento";
+                select += " WHERE " + Criterio() + " LIKE '%" + txtDCDato.Text + "%'";
+                select += " ORDER BY " + Criterio();
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
                 dtgDocumentos.DataSource = DT;
@@ -50,31 +42,26 @@ namespace Caja_UNAPEC
                 dtgDocumentos.Refresh();
                 dtgDocumentos.PerformLayout();
 
-
                 Con.Close();
-
             }
             catch (Exception Ex)
             {
                 Con.Close();
                 MessageBox.Show("Error al recoger la información de la base de datos \n" + Ex.Message);
             }
-
-
         }
 
-
-        private void btnDCGuardar_Click(object sender, EventArgs e)
+        private void BtnDCGuardar_Click(object sender, EventArgs e)
         {
-            string Nombre = txtDCNombre.Text;
-            string Descripcion = txtDCDescripcion.Text;
+            string nombre = txtDCNombre.Text;
+            string descripcion = txtDCDescripcion.Text;
 
             try
             {
                 Con.Open();
 
                 string Insert = "INSERT INTO Tipo_Documento (Nombre_TipoDoc, Descripcion_TipoDoc) VALUES ('";
-                Insert += Nombre + "' , '" + Descripcion + "')";
+                Insert += nombre + "' , '" + descripcion + "')";
                 SqlCommand Query = new SqlCommand(Insert, Con);
                 Query.ExecuteNonQuery();
 
@@ -94,18 +81,17 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnDCModificar_Click(object sender, EventArgs e)
+        private void BtnDCModificar_Click(object sender, EventArgs e)
         {
-            string ID = txtDCID.Text;
-            string Nombre = txtDCNombre.Text;
-            string Descripcion = txtDCDescripcion.Text;
+            string id = txtDCID.Text;
+            string nombre = txtDCNombre.Text;
+            string descripcion = txtDCDescripcion.Text;
 
             try
             {
-
                 Con.Open();
 
-                string Update = "UPDATE Tipo_Documento SET Nombre_TipoDoc = '" + Nombre + "', Descripcion_TipoDoc = '" + Descripcion + "' FROM Tipo_Documento WHERE ID_TipoDoc = '" + ID + "'";
+                string Update = "UPDATE Tipo_Documento SET Nombre_TipoDoc = '" + nombre + "', Descripcion_TipoDoc = '" + descripcion + "' FROM Tipo_Documento WHERE ID_TipoDoc = '" + id + "'";
 
                 SqlCommand Query = new SqlCommand(Update, Con);
                 Query.ExecuteNonQuery();
@@ -126,15 +112,15 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnDCEliminar_Click(object sender, EventArgs e)
+        private void BtnDCEliminar_Click(object sender, EventArgs e)
         {
-            string ID = txtDCID.Text;
+            string id = txtDCID.Text;
 
             try
             {
                 Con.Open();
 
-                string Delete = "DELETE FROM Tipo_Documento WHERE ID_TipoDoc = '" + ID + "'";
+                string Delete = "DELETE FROM Tipo_Documento WHERE ID_TipoDoc = '" + id + "'";
                 SqlCommand Query = new SqlCommand(Delete, Con);
                 Query.ExecuteNonQuery();
 
@@ -154,40 +140,38 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnDCLimpiar_Click(object sender, EventArgs e)
+        private void BtnDCLimpiar_Click(object sender, EventArgs e)
         {
             LimpiarCampos();
         }
 
-        private void btnDCBuscar_Click(object sender, EventArgs e)
+        private void BtnDCBuscar_Click(object sender, EventArgs e)
         {
             ESTSelectAll();
         }
 
-        private void dtgDocumentos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DtgDocumentos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow Row = dtgDocumentos.CurrentRow;
 
             try
             {
                 Con.Open();
-                string Select = "SELECT ID_TipoDoc FROM Tipo_Documento WHERE Nombre_TipoDoc = '" + Row.Cells[0].Value.ToString() + "'";
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT ID_TipoDoc FROM Tipo_Documento WHERE Nombre_TipoDoc = '" + Row.Cells[0].Value.ToString() + "'";
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
 
-                string ID = DT.Rows[0][0].ToString();
+                string id = DT.Rows[0][0].ToString();
 
                 Con.Close();
-                txtDCID.Text = ID;
+                txtDCID.Text = id;
             }
             catch (Exception Ex)
             {
                 Con.Close();
                 MessageBox.Show("Error al obtener el ID del documento.\n" + Ex.Message);
-
             }
-
 
             txtDCNombre.Text = Row.Cells[0].Value.ToString();
             txtDCDescripcion.Text = Row.Cells[1].Value.ToString();
@@ -203,6 +187,7 @@ namespace Caja_UNAPEC
 
             HabilitarBotones("A");
         }
+
         private void HabilitarBotones(string C)
         {
             if (C == "A")
@@ -221,7 +206,6 @@ namespace Caja_UNAPEC
 
         private string Criterio()
         {
-
             if (cbxDCCriterio.Text == "Nombre")
             {
                 return "Nombre_TipoDoc";

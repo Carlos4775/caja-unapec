@@ -63,16 +63,6 @@ namespace Caja_UNAPEC.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Export {
-            get {
-                object obj = ResourceManager.GetObject("Export", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap IMGAPEC {
             get {
                 object obj = ResourceManager.GetObject("IMGAPEC", resourceCulture);
@@ -86,16 +76,6 @@ namespace Caja_UNAPEC.Properties {
         internal static System.Drawing.Bitmap IMGAPECs {
             get {
                 object obj = ResourceManager.GetObject("IMGAPECs", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Serarch {
-            get {
-                object obj = ResourceManager.GetObject("Serarch", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

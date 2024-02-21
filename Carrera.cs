@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Caja_UNAPEC
 {
@@ -33,18 +27,16 @@ namespace Caja_UNAPEC
             ESTSelectAll();
         }
 
-
         private void ESTSelectAll()
         {
             try
             {
-
                 Con.Open();
 
-                string Select = "SELECT Codigo_Carrera AS Carrera, Nombre_Carrera AS Nombre, Descripcion_Carrera AS Descripcion FROM Carrera";
-                Select += " WHERE " + Criterio() + " LIKE '%" + txtCARDato.Text + "%'";
-                Select += " ORDER BY " + Criterio();
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT Codigo_Carrera AS Carrera, Nombre_Carrera AS Nombre, Descripcion_Carrera AS Descripcion FROM Carrera";
+                select += " WHERE " + Criterio() + " LIKE '%" + txtCARDato.Text + "%'";
+                select += " ORDER BY " + Criterio();
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DT = new DataTable();
                 DA.Fill(DT);
                 dtgCarreras.DataSource = DT;
@@ -52,30 +44,27 @@ namespace Caja_UNAPEC
                 dtgCarreras.Refresh();
                 dtgCarreras.PerformLayout();
 
-
                 Con.Close();
-
             }
             catch (Exception Ex)
             {
                 Con.Close();
                 MessageBox.Show("Error al recoger la información de la base de datos \n" + Ex.Message);
             }
-
         }
 
-        private void btnCARGuardar_Click(object sender, EventArgs e)
+        private void BtnCARGuardar_Click(object sender, EventArgs e)
         {
-            string Codigo = txtCARCodigo.Text;
-            string Nombre = txtCARNombre.Text;
-            string Descripcion = txtCARDescripcion.Text;
+            string codigo = txtCARCodigo.Text;
+            string nombre = txtCARNombre.Text;
+            string descripcion = txtCARDescripcion.Text;
 
             try
             {
                 Con.Open();
 
                 string Insert = "INSERT INTO Carrera (Codigo_Carrera, Nombre_Carrera, Descripcion_Carrera) VALUES ('";
-                Insert += Codigo + "' , '" + Nombre + "' , '" + Descripcion + "')";
+                Insert += codigo + "' , '" + nombre + "' , '" + descripcion + "')";
                 SqlCommand Query = new SqlCommand(Insert, Con);
                 Query.ExecuteNonQuery();
 
@@ -95,18 +84,17 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnCARModificar_Click(object sender, EventArgs e)
+        private void BtnCARModificar_Click(object sender, EventArgs e)
         {
-            string Codigo = txtCARCodigo.Text;
-            string Nombre = txtCARNombre.Text;
-            string Descripcion = txtCARDescripcion.Text;
+            string codigo = txtCARCodigo.Text;
+            string nombre = txtCARNombre.Text;
+            string descripcion = txtCARDescripcion.Text;
 
             try
             {
-
                 Con.Open();
 
-                string Update = "UPDATE Carrera SET Nombre_Carrera = '" + Nombre + "', Descripcion_Carrera = '" + Descripcion + "' FROM Carrera WHERE Codigo_Carrera = '" + Codigo + "'";
+                string Update = "UPDATE Carrera SET Nombre_Carrera = '" + nombre + "', Descripcion_Carrera = '" + descripcion + "' FROM Carrera WHERE Codigo_Carrera = '" + codigo + "'";
 
                 SqlCommand Query = new SqlCommand(Update, Con);
                 Query.ExecuteNonQuery();
@@ -127,15 +115,15 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnCAREliminar_Click(object sender, EventArgs e)
+        private void BtnCAREliminar_Click(object sender, EventArgs e)
         {
-            string Codigo = txtCARCodigo.Text;
+            string codigo = txtCARCodigo.Text;
 
             try
             {
                 Con.Open();
 
-                string Delete = "DELETE FROM Carrera WHERE Codigo_Carrera = '" + Codigo + "'";
+                string Delete = "DELETE FROM Carrera WHERE Codigo_Carrera = '" + codigo + "'";
                 SqlCommand Query = new SqlCommand(Delete, Con);
                 Query.ExecuteNonQuery();
 
@@ -155,16 +143,17 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnCARLimpiar_Click(object sender, EventArgs e)
+        private void BtnCARLimpiar_Click(object sender, EventArgs e)
         {
             LimpiarCampos();
         }
 
-        private void btnCARBuscar_Click(object sender, EventArgs e)
+        private void BtnCARBuscar_Click(object sender, EventArgs e)
         {
             ESTSelectAll();
         }
-        private void dtgCarreras_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+
+        private void DtgCarreras_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow Row = dtgCarreras.CurrentRow;
             txtCARCodigo.Text = Row.Cells[0].Value.ToString();
@@ -182,6 +171,7 @@ namespace Caja_UNAPEC
 
             HabilitarBotones("A");
         }
+
         private void HabilitarBotones(string C)
         {
             if (C == "A")
@@ -224,7 +214,6 @@ namespace Caja_UNAPEC
         {
             try
             {
-
                 StreamWriter SW = new StreamWriter(Nombre, false, System.Text.Encoding.GetEncoding(1252));
 
                 SW.WriteLine("sep=|");
@@ -235,6 +224,7 @@ namespace Caja_UNAPEC
                 {
                     Header += col.Name + "|";
                 }
+
                 Header = Header.Remove(Header.Length - 1);
 
                 SW.WriteLine(Header);
@@ -242,6 +232,7 @@ namespace Caja_UNAPEC
                 foreach (DataRow DR in DT.Rows)
                 {
                     string Linea = "";
+
                     foreach (DataColumn DC in DT.Columns)
                     {
                         Linea += DR[DC].ToString() + "|";
@@ -256,30 +247,28 @@ namespace Caja_UNAPEC
             {
                 MessageBox.Show("Error al exportar el archivo.\n" + Ex.Message);
             }
-
-
         }
 
-        private void btnCARExportar_Click(object sender, EventArgs e)
+        private void BtnCARExportar_Click(object sender, EventArgs e)
         {
-            string Archivo = "";
+            SaveFileDialog ExportarEn = new SaveFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                Title = "Guardar en",
+                CheckFileExists = false,
+                CheckPathExists = true,
+                Filter = "Archivo de Exel (*.csv)|*.csv|Todos los arvhivos (*.*)|*.*",
+                DefaultExt = ".csv",
+                FilterIndex = 1,
+                RestoreDirectory = true,
+                FileName = "Carreras"
+            };
 
-            SaveFileDialog ExportarEn = new SaveFileDialog();
-            ExportarEn.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            ExportarEn.Title = "Guardar en";
-            ExportarEn.CheckFileExists = false;
-            ExportarEn.CheckPathExists = true;
-            ExportarEn.Filter = "Archivo de Exel (*.csv)|*.csv|Todos los arvhivos (*.*)|*.*";
-            ExportarEn.DefaultExt = ".csv";
-            ExportarEn.FilterIndex = 1;
-            ExportarEn.RestoreDirectory = true;
-            ExportarEn.FileName = "Carreras";
             if (ExportarEn.ShowDialog() == DialogResult.OK)
             {
-                Archivo = ExportarEn.FileName;
+                string Archivo = ExportarEn.FileName;
                 ExportaExcel(dtgCarreras, Archivo);
             }
-
         }
     }
 }

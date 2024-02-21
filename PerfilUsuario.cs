@@ -1,32 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
-using System.Security.Cryptography;
+using System.Text;
+using System.Windows.Forms;
 
 namespace Caja_UNAPEC
 {
     public partial class PerfilUsuario : UserControl
     {
         SqlConnection Con = null;
+
         public PerfilUsuario()
         {
             InitializeComponent();
-
-      
         }
 
         public void InicializarPerfilUsuario(string Conn)
         {
             Con = new SqlConnection(Conn);
-
-        
         }
 
         public void DatosUsuario(string nombre, string identificador, string acceso, string estado)
@@ -37,21 +27,21 @@ namespace Caja_UNAPEC
             lblPUEstado.Text = estado;
         }
 
-        private void btnPUCambiarClave_Click(object sender, EventArgs e)
+        private void BtnPUCambiarClave_Click(object sender, EventArgs e)
         {
             Habilitar();
         }
 
-        private void btnPUCancelar_Click(object sender, EventArgs e)
+        private void BtnPUCancelar_Click(object sender, EventArgs e)
         {
             Desabilitar();
         }
 
-        private void btnPUConfirmar_Click(object sender, EventArgs e)
+        private void BtnPUConfirmar_Click(object sender, EventArgs e)
         {
-            string Anterior = txtPUCAnterior.Text;
-            string Nueva = txtPUCNueva.Text;
-            string Confirmar = txtPUCConfirmar.Text;
+            string anterior = txtPUCAnterior.Text;
+            string nueva = txtPUCNueva.Text;
+            string confirmar = txtPUCConfirmar.Text;
 
             try
             {
@@ -59,15 +49,14 @@ namespace Caja_UNAPEC
 
                 SqlCommand VerificarUsuario = new SqlCommand("SELECT COUNT(*) FROM Usuarios WHERE Identificador_Usuario= @Usuario AND Clave_Usuario = @Hash", Con);
                 VerificarUsuario.Parameters.AddWithValue("@Usuario", lblPUIdentificador.Text);
-                VerificarUsuario.Parameters.AddWithValue("@Hash", GetSha1Hash(Anterior));
+                VerificarUsuario.Parameters.AddWithValue("@Hash", GetSha1Hash(anterior));
 
                 int UsuarioEncontrado = (int)VerificarUsuario.ExecuteScalar();
 
-                if (UsuarioEncontrado == 1 & Nueva == Confirmar)
+                if (UsuarioEncontrado == 1 & nueva == confirmar)
                 {
-
                     SqlCommand TomarUsuario = new SqlCommand("UPDATE Usuarios SET Clave_Usuario = @Clave WHERE Identificador_Usuario = @Identificador;", Con);
-                    TomarUsuario.Parameters.AddWithValue("@Clave", GetSha1Hash(Nueva));
+                    TomarUsuario.Parameters.AddWithValue("@Clave", GetSha1Hash(nueva));
                     TomarUsuario.Parameters.AddWithValue("@Identificador", lblPUIdentificador.Text);
 
                     TomarUsuario.ExecuteNonQuery();
@@ -76,7 +65,6 @@ namespace Caja_UNAPEC
 
                     MessageBox.Show("Su contraseña fue modificada.");
                 }
-                
                 else
                 {
                     txtPUCAnterior.Clear();
@@ -93,8 +81,8 @@ namespace Caja_UNAPEC
         }
         internal static string GetSha1Hash(string text)
         {
-            if (String.IsNullOrEmpty(text))
-                return String.Empty;
+            if (string.IsNullOrEmpty(text))
+                return string.Empty;
 
             using (var sha1 = new System.Security.Cryptography.SHA256Managed())
             {
@@ -102,7 +90,7 @@ namespace Caja_UNAPEC
 
                 byte[] hash = sha1.ComputeHash(textData);
 
-                return BitConverter.ToString(hash).Replace("-", String.Empty);
+                return BitConverter.ToString(hash).Replace("-", string.Empty);
             }
         }
 
@@ -126,5 +114,4 @@ namespace Caja_UNAPEC
             pnlPUCambioClave.Enabled = false;
         }
     }
-
 }

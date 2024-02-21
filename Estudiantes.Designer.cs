@@ -127,7 +127,7 @@
             this.btnETDEliminar.TabIndex = 24;
             this.btnETDEliminar.Text = "Eliminar";
             this.btnETDEliminar.UseVisualStyleBackColor = false;
-            this.btnETDEliminar.Click += new System.EventHandler(this.btnETDEliminar_Click);
+            this.btnETDEliminar.Click += new System.EventHandler(this.BtnETDEliminar_Click);
             // 
             // btnETDGuardar
             // 
@@ -143,7 +143,7 @@
             this.btnETDGuardar.TabIndex = 23;
             this.btnETDGuardar.Text = "Guardar";
             this.btnETDGuardar.UseVisualStyleBackColor = false;
-            this.btnETDGuardar.Click += new System.EventHandler(this.btnETDGuardar_Click);
+            this.btnETDGuardar.Click += new System.EventHandler(this.BtnETDGuardar_Click);
             // 
             // btnETDModificar
             // 
@@ -159,7 +159,7 @@
             this.btnETDModificar.TabIndex = 22;
             this.btnETDModificar.Text = "Modificar";
             this.btnETDModificar.UseVisualStyleBackColor = false;
-            this.btnETDModificar.Click += new System.EventHandler(this.btnETDModificar_Click);
+            this.btnETDModificar.Click += new System.EventHandler(this.BtnETDModificar_Click);
             // 
             // btnETDLimpiar
             // 
@@ -175,7 +175,7 @@
             this.btnETDLimpiar.TabIndex = 3;
             this.btnETDLimpiar.Text = "Limpiar";
             this.btnETDLimpiar.UseVisualStyleBackColor = false;
-            this.btnETDLimpiar.Click += new System.EventHandler(this.btnETDLimpiar_Click);
+            this.btnETDLimpiar.Click += new System.EventHandler(this.BtnETDLimpiar_Click);
             // 
             // rbETDInactivo
             // 
@@ -348,7 +348,7 @@
             this.btnETDBuscar.TabIndex = 26;
             this.btnETDBuscar.Text = "Buscar";
             this.btnETDBuscar.UseVisualStyleBackColor = false;
-            this.btnETDBuscar.Click += new System.EventHandler(this.btnETDBuscar_Click);
+            this.btnETDBuscar.Click += new System.EventHandler(this.BtnETDBuscar_Click);
             // 
             // txtETDDato
             // 
@@ -428,7 +428,7 @@
             this.dtgEstudiantes.RowTemplate.Height = 24;
             this.dtgEstudiantes.Size = new System.Drawing.Size(579, 450);
             this.dtgEstudiantes.TabIndex = 11;
-            this.dtgEstudiantes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgEstudiantes_CellDoubleClick);
+            this.dtgEstudiantes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DtgEstudiantes_CellDoubleClick);
             // 
             // btnETDExportar
             // 
@@ -444,7 +444,7 @@
             this.btnETDExportar.TabIndex = 28;
             this.btnETDExportar.Text = "Exportar";
             this.btnETDExportar.UseVisualStyleBackColor = false;
-            this.btnETDExportar.Click += new System.EventHandler(this.btnETDExportar_Click);
+            this.btnETDExportar.Click += new System.EventHandler(this.BtnETDExportar_Click);
             // 
             // Estudiantes
             // 

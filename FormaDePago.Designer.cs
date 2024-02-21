@@ -95,7 +95,7 @@
             this.btnFPEliminar.TabIndex = 24;
             this.btnFPEliminar.Text = "Eliminar";
             this.btnFPEliminar.UseVisualStyleBackColor = false;
-            this.btnFPEliminar.Click += new System.EventHandler(this.btnFPEliminar_Click);
+            this.btnFPEliminar.Click += new System.EventHandler(this.BtnFPEliminar_Click);
             // 
             // btnFPGuardar
             // 
@@ -110,7 +110,7 @@
             this.btnFPGuardar.TabIndex = 23;
             this.btnFPGuardar.Text = "Guardar";
             this.btnFPGuardar.UseVisualStyleBackColor = false;
-            this.btnFPGuardar.Click += new System.EventHandler(this.btnFPGuardar_Click);
+            this.btnFPGuardar.Click += new System.EventHandler(this.BtnFPGuardar_Click);
             // 
             // btnFPModificar
             // 
@@ -125,7 +125,7 @@
             this.btnFPModificar.TabIndex = 22;
             this.btnFPModificar.Text = "Modificar";
             this.btnFPModificar.UseVisualStyleBackColor = false;
-            this.btnFPModificar.Click += new System.EventHandler(this.btnFPModificar_Click);
+            this.btnFPModificar.Click += new System.EventHandler(this.BtnFPModificar_Click);
             // 
             // btnFPLimpiar
             // 
@@ -140,7 +140,7 @@
             this.btnFPLimpiar.TabIndex = 3;
             this.btnFPLimpiar.Text = "Limpiar";
             this.btnFPLimpiar.UseVisualStyleBackColor = false;
-            this.btnFPLimpiar.Click += new System.EventHandler(this.btnFPLimpiar_Click);
+            this.btnFPLimpiar.Click += new System.EventHandler(this.BtnFPLimpiar_Click);
             // 
             // label9
             // 
@@ -265,7 +265,7 @@
             this.btnFPBuscar.TabIndex = 40;
             this.btnFPBuscar.Text = "Buscar";
             this.btnFPBuscar.UseVisualStyleBackColor = false;
-            this.btnFPBuscar.Click += new System.EventHandler(this.btnFPBuscar_Click);
+            this.btnFPBuscar.Click += new System.EventHandler(this.BtnFPBuscar_Click);
             // 
             // dtgFormaPago
             // 
@@ -300,7 +300,7 @@
             this.dtgFormaPago.RowTemplate.Height = 24;
             this.dtgFormaPago.Size = new System.Drawing.Size(579, 450);
             this.dtgFormaPago.TabIndex = 42;
-            this.dtgFormaPago.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgFormaPago_CellDoubleClick);
+            this.dtgFormaPago.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DtgFormaPago_CellDoubleClick);
             // 
             // FormaDePago
             // 

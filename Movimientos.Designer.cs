@@ -111,7 +111,7 @@
             this.cbxMCServicio.Name = "cbxMCServicio";
             this.cbxMCServicio.Size = new System.Drawing.Size(223, 30);
             this.cbxMCServicio.TabIndex = 40;
-            this.cbxMCServicio.SelectedIndexChanged += new System.EventHandler(this.cbxMCServicio_SelectedIndexChanged);
+            this.cbxMCServicio.SelectedIndexChanged += new System.EventHandler(this.CbxMCServicio_SelectedIndexChanged);
             // 
             // cbxMCDocumento
             // 
@@ -178,7 +178,7 @@
             this.cbxMCEstado.Name = "cbxMCEstado";
             this.cbxMCEstado.Size = new System.Drawing.Size(223, 30);
             this.cbxMCEstado.TabIndex = 33;
-            this.cbxMCEstado.SelectedIndexChanged += new System.EventHandler(this.cbxMCEstado_SelectedIndexChanged);
+            this.cbxMCEstado.SelectedIndexChanged += new System.EventHandler(this.CbxMCEstado_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -230,7 +230,7 @@
             this.btnMCEliminar.TabIndex = 24;
             this.btnMCEliminar.Text = "Eliminar";
             this.btnMCEliminar.UseVisualStyleBackColor = false;
-            this.btnMCEliminar.Click += new System.EventHandler(this.btnMCEliminar_Click);
+            this.btnMCEliminar.Click += new System.EventHandler(this.BtnMCEliminar_Click);
             // 
             // btnMCGuardar
             // 
@@ -245,7 +245,7 @@
             this.btnMCGuardar.TabIndex = 23;
             this.btnMCGuardar.Text = "Guardar";
             this.btnMCGuardar.UseVisualStyleBackColor = false;
-            this.btnMCGuardar.Click += new System.EventHandler(this.btnMCGuardar_Click);
+            this.btnMCGuardar.Click += new System.EventHandler(this.BtnMCGuardar_Click);
             // 
             // btnMCModificar
             // 
@@ -260,7 +260,7 @@
             this.btnMCModificar.TabIndex = 22;
             this.btnMCModificar.Text = "Modificar";
             this.btnMCModificar.UseVisualStyleBackColor = false;
-            this.btnMCModificar.Click += new System.EventHandler(this.btnMCModificar_Click);
+            this.btnMCModificar.Click += new System.EventHandler(this.BtnMCModificar_Click);
             // 
             // btnMCLimpiar
             // 
@@ -275,7 +275,7 @@
             this.btnMCLimpiar.TabIndex = 3;
             this.btnMCLimpiar.Text = "Limpiar";
             this.btnMCLimpiar.UseVisualStyleBackColor = false;
-            this.btnMCLimpiar.Click += new System.EventHandler(this.btnMCLimpiar_Click);
+            this.btnMCLimpiar.Click += new System.EventHandler(this.BtnMCLimpiar_Click);
             // 
             // cbxMCFormaPago
             // 
@@ -469,12 +469,11 @@
             this.dtgMovimientos.RowTemplate.Height = 24;
             this.dtgMovimientos.Size = new System.Drawing.Size(579, 450);
             this.dtgMovimientos.TabIndex = 33;
-            this.dtgMovimientos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgMovimientos_CellDoubleClick);
+            this.dtgMovimientos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DtgMovimientos_CellDoubleClick);
             // 
             // btnMCExportar
             // 
             this.btnMCExportar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(72)))), ((int)(((byte)(146)))));
-            this.btnMCExportar.BackgroundImage = global::Caja_UNAPEC.Properties.Resources.Export;
             this.btnMCExportar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnMCExportar.FlatAppearance.BorderSize = 0;
             this.btnMCExportar.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(92)))), ((int)(((byte)(166)))));
@@ -486,12 +485,11 @@
             this.btnMCExportar.Size = new System.Drawing.Size(34, 32);
             this.btnMCExportar.TabIndex = 42;
             this.btnMCExportar.UseVisualStyleBackColor = false;
-            this.btnMCExportar.Click += new System.EventHandler(this.btnMCExportar_Click);
+            this.btnMCExportar.Click += new System.EventHandler(this.BtnMCExportar_Click);
             // 
             // btnMCBuscar
             // 
             this.btnMCBuscar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(72)))), ((int)(((byte)(146)))));
-            this.btnMCBuscar.BackgroundImage = global::Caja_UNAPEC.Properties.Resources.Serarch;
             this.btnMCBuscar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnMCBuscar.FlatAppearance.BorderSize = 0;
             this.btnMCBuscar.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(92)))), ((int)(((byte)(166)))));
@@ -504,7 +502,7 @@
             this.btnMCBuscar.Size = new System.Drawing.Size(35, 32);
             this.btnMCBuscar.TabIndex = 37;
             this.btnMCBuscar.UseVisualStyleBackColor = false;
-            this.btnMCBuscar.Click += new System.EventHandler(this.btnMCBuscar_Click);
+            this.btnMCBuscar.Click += new System.EventHandler(this.BtnMCBuscar_Click);
             // 
             // Movimientos
             // 

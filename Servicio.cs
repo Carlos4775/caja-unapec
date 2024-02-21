@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace Caja_UNAPEC
 {
     public partial class Servicio : UserControl
     {
         SqlConnection Con = null;
+
         public Servicio()
         {
             InitializeComponent();
@@ -35,13 +30,12 @@ namespace Caja_UNAPEC
         {
             try
             {
-
                 Con.Open();
 
-                string Select = "SELECT Nombre_Servicio AS Nombre, Descripcion_Servicio AS Descripcion, Monto_Servicio AS Monto FROM Servicios";
-                Select += " WHERE " + Criterio() + " LIKE '%" + txtSVDato.Text + "%'";
-                Select += " ORDER BY " + Criterio();
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT Nombre_Servicio AS Nombre, Descripcion_Servicio AS Descripcion, Monto_Servicio AS Monto FROM Servicios";
+                select += " WHERE " + Criterio() + " LIKE '%" + txtSVDato.Text + "%'";
+                select += " ORDER BY " + Criterio();
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
                 dtgServicios.DataSource = DT;
@@ -49,31 +43,27 @@ namespace Caja_UNAPEC
                 dtgServicios.Refresh();
                 dtgServicios.PerformLayout();
 
-
                 Con.Close();
-
             }
             catch (Exception Ex)
             {
                 Con.Close();
                 MessageBox.Show("Error al recoger la información de la base de datos \n" + Ex.Message);
             }
-
-
         }
 
-        private void btnSVGuardar_Click(object sender, EventArgs e)
+        private void BtnSVGuardar_Click(object sender, EventArgs e)
         {
-            string Nombre = txtSVNombre.Text;
-            string Descripcion = txtSVDescripcion.Text;
-            string Monto = txtSVMonto.Text;
+            string nombre = txtSVNombre.Text;
+            string descripcion = txtSVDescripcion.Text;
+            string monto = txtSVMonto.Text;
 
             try
             {
                 Con.Open();
 
                 string Insert = "INSERT INTO Servicios (Nombre_Servicio, Descripcion_Servicio, , Monto_Servicio) VALUES ('";
-                Insert +=  Nombre + "' , '" + Descripcion + "' , '" + Monto + "')";
+                Insert +=  nombre + "' , '" + descripcion + "' , '" + monto + "')";
                 SqlCommand Query = new SqlCommand(Insert, Con);
                 Query.ExecuteNonQuery();
 
@@ -93,19 +83,18 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnSVModificar_Click(object sender, EventArgs e)
+        private void BtnSVModificar_Click(object sender, EventArgs e)
         {
-            string ID = txtSVID.Text;
-            string Nombre = txtSVNombre.Text;
-            string Descripcion = txtSVDescripcion.Text;
-            string Monto = txtSVMonto.Text;
+            string id = txtSVID.Text;
+            string nombre = txtSVNombre.Text;
+            string descripcion = txtSVDescripcion.Text;
+            string monto = txtSVMonto.Text;
 
             try
             {
-
                 Con.Open();
 
-                string Update = "UPDATE Servicios SET Nombre_Servicio = '" + Nombre + "', Descripcion_Servicio = '" + Descripcion + "', Monto_Servicio = '" + Monto + "' FROM Servicios WHERE ID_Servicio = '" + ID + "'";
+                string Update = "UPDATE Servicios SET Nombre_Servicio = '" + nombre + "', Descripcion_Servicio = '" + descripcion + "', Monto_Servicio = '" + monto + "' FROM Servicios WHERE ID_Servicio = '" + id + "'";
 
                 SqlCommand Query = new SqlCommand(Update, Con);
                 Query.ExecuteNonQuery();
@@ -126,15 +115,15 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnSVEliminar_Click(object sender, EventArgs e)
+        private void BtnSVEliminar_Click(object sender, EventArgs e)
         {
-            string ID = txtSVID.Text;
+            string id = txtSVID.Text;
 
             try
             {
                 Con.Open();
 
-                string Delete = "DELETE FROM Servicios WHERE ID_Servicio = '" + ID+ "'";
+                string Delete = "DELETE FROM Servicios WHERE ID_Servicio = '" + id + "'";
                 SqlCommand Query = new SqlCommand(Delete, Con);
                 Query.ExecuteNonQuery();
 
@@ -154,40 +143,38 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnSVLimpiar_Click(object sender, EventArgs e)
+        private void BtnSVLimpiar_Click(object sender, EventArgs e)
         {
             LimpiarCampos();
         }
 
-        private void btnSVBuscar_Click(object sender, EventArgs e)
+        private void BtnSVBuscar_Click(object sender, EventArgs e)
         {
             ESTSelectAll();
         }
 
-        private void dtgServicios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DtgServicios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow Row = dtgServicios.CurrentRow;
 
             try
             {
                 Con.Open();
-                string Select = "SELECT ID_Servicio FROM Servicios WHERE Nombre_Servicio = '" + Row.Cells[0].Value.ToString() + "'";
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT ID_Servicio FROM Servicios WHERE Nombre_Servicio = '" + Row.Cells[0].Value.ToString() + "'";
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
 
-                string ID = DT.Rows[0][0].ToString();
+                string id = DT.Rows[0][0].ToString();
 
                 Con.Close();
-                txtSVID.Text = ID;
+                txtSVID.Text = id;
             }
             catch (Exception Ex)
             {
                 Con.Close();
                 MessageBox.Show("Error al obtener el ID del servicio.\n" + Ex.Message);
-
             }
-
 
             txtSVNombre.Text = Row.Cells[0].Value.ToString();
             txtSVDescripcion.Text = Row.Cells[1].Value.ToString();
@@ -205,6 +192,7 @@ namespace Caja_UNAPEC
 
             HabilitarBotones("A");
         }
+
         private void HabilitarBotones(string C)
         {
             if (C == "A")
@@ -223,7 +211,6 @@ namespace Caja_UNAPEC
 
         private string Criterio()
         {
-
             if (cbxSVCriterio.Text == "Nombre")
             {
                 return "Nombre_Servicio";

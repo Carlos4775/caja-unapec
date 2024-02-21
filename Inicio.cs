@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
-using System.Security.Cryptography;
+using System.Text;
+using System.Windows.Forms;
 
 namespace Caja_UNAPEC
 {
@@ -25,7 +18,6 @@ namespace Caja_UNAPEC
             Con = new SqlConnection(Conn);
             txtINCUsuario.Clear();
             txtINCClave.Clear();
-
         }
 
         Usuario DTUsuario = null;
@@ -34,18 +26,15 @@ namespace Caja_UNAPEC
         {
             try
             {
-
-
                 Con.Open();
 
-                string Usuario = txtINCUsuario.Text;
-                string Clave = txtINCClave.Text;
-                string Hash = GetSha1Hash(Clave);
-
+                string usuario = txtINCUsuario.Text;
+                string clave = txtINCClave.Text;
+                string hash = GetSha1Hash(clave);
 
                 SqlCommand VerificarUsuario = new SqlCommand("SELECT COUNT(*) FROM Usuarios WHERE Identificador_Usuario=@Usuario AND Clave_Usuario=@Hash", Con);
-                VerificarUsuario.Parameters.AddWithValue("@Usuario", Usuario);
-                VerificarUsuario.Parameters.AddWithValue("@Hash", Hash);
+                VerificarUsuario.Parameters.AddWithValue("@Usuario", usuario);
+                VerificarUsuario.Parameters.AddWithValue("@Hash", hash);
 
                 int UsuarioEncontrado = (int)VerificarUsuario.ExecuteScalar();
 
@@ -54,26 +43,26 @@ namespace Caja_UNAPEC
                     DTUsuario = new Usuario();
 
                     SqlCommand TomarUsuario = new SqlCommand("SELECT Identificador_Usuario AS Indentificador, Nombre_Usuario AS Nombre, Accesibilidad_Usuario AS Accesibilidad, Estado_Usuario AS Estado FROM Usuarios WHERE Identificador_Usuario =@Usuario AND Clave_Usuario=@Hash", Con);
-                    TomarUsuario.Parameters.AddWithValue("@Usuario", Usuario);
-                    TomarUsuario.Parameters.AddWithValue("@Hash", Hash);
+                    TomarUsuario.Parameters.AddWithValue("@Usuario", usuario);
+                    TomarUsuario.Parameters.AddWithValue("@Hash", hash);
 
                     SqlDataReader DR = TomarUsuario.ExecuteReader();
-                    Hash = "";
-
+                    hash = "";
 
                     if (DR.HasRows)
                     {
                         while (DR.Read())
                         {
-
                             DTUsuario.Identificador_O = DR[0].ToString();
                             DTUsuario.Nombre_O = DR[1].ToString();
                             DTUsuario.Acceso_O = DR[2].ToString();
                             DTUsuario.Estado_O = DR[3].ToString();
-
-                           
                         }
-                    } else { DTUsuario = null; }
+                    } 
+                    else 
+                    { 
+                        DTUsuario = null; 
+                    }
 
                     if (DTUsuario.Estado_O == "Inactivo" )
                     {
@@ -81,8 +70,9 @@ namespace Caja_UNAPEC
                         txtINCClave.Clear();
                         MessageBox.Show("Su cuenta '" + DTUsuario.Nombre_O + "' se encuentra inactiva. \n Contacte a un administrador.");
                         DTUsuario = null;
-                    } else {
-
+                    }
+                    else 
+                    {
                         txtINCUsuario.Clear();
                         txtINCClave.Clear();
 
@@ -90,20 +80,17 @@ namespace Caja_UNAPEC
                     }
 
                     Con.Close();
-
                 }
                 else
                 {
                     txtINCClave.Clear();
 
-
                     Con.Close();
 
-                    Hash = "";
+                    hash = "";
 
                     MessageBox.Show("Datos incorrectos");
                 }
-                
             }
             catch (Exception ex)
             {
@@ -113,11 +100,10 @@ namespace Caja_UNAPEC
             }
         }
 
-
         internal static string GetSha1Hash(string text)
         {
-            if (String.IsNullOrEmpty(text))
-                return String.Empty;
+            if (string.IsNullOrEmpty(text))
+                return string.Empty;
 
             using (var sha1 = new System.Security.Cryptography.SHA256Managed())
             {
@@ -125,7 +111,7 @@ namespace Caja_UNAPEC
 
                 byte[] hash = sha1.ComputeHash(textData);
 
-                return BitConverter.ToString(hash).Replace("-", String.Empty);
+                return BitConverter.ToString(hash).Replace("-", string.Empty);
             }
         }
 
@@ -136,25 +122,21 @@ namespace Caja_UNAPEC
 
         public void LimpiarCredenciales()
         {
-
             DTUsuario = null;
         }
 
         public event EventHandler Ingresar;
-        private void btnINCIngresar_Click(object sender, EventArgs e)
+        private void BtnINCIngresar_Click(object sender, EventArgs e)
         {
-
             VerificarUsuario();
 
-            
-
-            if (this.Ingresar != null)
+            if (Ingresar != null)
             {
                 Ingresar(this, e);
             }
         }
 
-        private void btnINCSalir_Click(object sender, EventArgs e)
+        private void BtnINCSalir_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }

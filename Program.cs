@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Caja_UNAPEC
@@ -16,7 +13,7 @@ namespace Caja_UNAPEC
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmCajaUnapec());
+            Application.Run(new FrmCajaUnapec());
         }
     }
 }

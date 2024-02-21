@@ -182,7 +182,7 @@
             this.btnPUCambiarClave.TabIndex = 26;
             this.btnPUCambiarClave.Text = "Cambiar Clave";
             this.btnPUCambiarClave.UseVisualStyleBackColor = false;
-            this.btnPUCambiarClave.Click += new System.EventHandler(this.btnPUCambiarClave_Click);
+            this.btnPUCambiarClave.Click += new System.EventHandler(this.BtnPUCambiarClave_Click);
             // 
             // label13
             // 
@@ -290,7 +290,7 @@
             this.btnPUConfirmar.TabIndex = 35;
             this.btnPUConfirmar.Text = "Confirmar";
             this.btnPUConfirmar.UseVisualStyleBackColor = false;
-            this.btnPUConfirmar.Click += new System.EventHandler(this.btnPUConfirmar_Click);
+            this.btnPUConfirmar.Click += new System.EventHandler(this.BtnPUConfirmar_Click);
             // 
             // btnPUCancelar
             // 
@@ -305,7 +305,7 @@
             this.btnPUCancelar.TabIndex = 36;
             this.btnPUCancelar.Text = "Cancelar";
             this.btnPUCancelar.UseVisualStyleBackColor = false;
-            this.btnPUCancelar.Click += new System.EventHandler(this.btnPUCancelar_Click);
+            this.btnPUCancelar.Click += new System.EventHandler(this.BtnPUCancelar_Click);
             // 
             // lbltituloCambioClave
             // 

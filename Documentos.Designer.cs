@@ -95,7 +95,7 @@
             this.btnDCEliminar.TabIndex = 24;
             this.btnDCEliminar.Text = "Eliminar";
             this.btnDCEliminar.UseVisualStyleBackColor = false;
-            this.btnDCEliminar.Click += new System.EventHandler(this.btnDCEliminar_Click);
+            this.btnDCEliminar.Click += new System.EventHandler(this.BtnDCEliminar_Click);
             // 
             // btnDCGuardar
             // 
@@ -110,7 +110,7 @@
             this.btnDCGuardar.TabIndex = 23;
             this.btnDCGuardar.Text = "Guardar";
             this.btnDCGuardar.UseVisualStyleBackColor = false;
-            this.btnDCGuardar.Click += new System.EventHandler(this.btnDCGuardar_Click);
+            this.btnDCGuardar.Click += new System.EventHandler(this.BtnDCGuardar_Click);
             // 
             // btnDCModificar
             // 
@@ -125,7 +125,7 @@
             this.btnDCModificar.TabIndex = 22;
             this.btnDCModificar.Text = "Modificar";
             this.btnDCModificar.UseVisualStyleBackColor = false;
-            this.btnDCModificar.Click += new System.EventHandler(this.btnDCModificar_Click);
+            this.btnDCModificar.Click += new System.EventHandler(this.BtnDCModificar_Click);
             // 
             // btnDCLimpiar
             // 
@@ -140,7 +140,7 @@
             this.btnDCLimpiar.TabIndex = 3;
             this.btnDCLimpiar.Text = "Limpiar";
             this.btnDCLimpiar.UseVisualStyleBackColor = false;
-            this.btnDCLimpiar.Click += new System.EventHandler(this.btnDCLimpiar_Click);
+            this.btnDCLimpiar.Click += new System.EventHandler(this.BtnDCLimpiar_Click);
             // 
             // label9
             // 
@@ -265,7 +265,7 @@
             this.btnDCBuscar.TabIndex = 43;
             this.btnDCBuscar.Text = "Buscar";
             this.btnDCBuscar.UseVisualStyleBackColor = false;
-            this.btnDCBuscar.Click += new System.EventHandler(this.btnDCBuscar_Click);
+            this.btnDCBuscar.Click += new System.EventHandler(this.BtnDCBuscar_Click);
             // 
             // dtgDocumentos
             // 
@@ -300,7 +300,7 @@
             this.dtgDocumentos.RowTemplate.Height = 24;
             this.dtgDocumentos.Size = new System.Drawing.Size(579, 450);
             this.dtgDocumentos.TabIndex = 39;
-            this.dtgDocumentos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgDocumentos_CellDoubleClick);
+            this.dtgDocumentos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DtgDocumentos_CellDoubleClick);
             // 
             // Documentos
             // 

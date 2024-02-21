@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
 
 namespace Caja_UNAPEC
 {
     public partial class Usuarios : UserControl
     {
         SqlConnection Con = null;
+
         public Usuarios()
         {
             InitializeComponent();
@@ -31,18 +28,16 @@ namespace Caja_UNAPEC
             ESTSelectAll();
         }
 
-
         private void ESTSelectAll()
         {
             try
             {
-
                 Con.Open();
 
-                string Select = "SELECT Identificador_Usuario AS Indentificador, Nombre_Usuario AS Nombre, Accesibilidad_Usuario AS Accesibilidad, Estado_Usuario As Estado FROM Usuarios";
-                Select += " WHERE " + Criterio() + " LIKE '%" + txtUSUDato.Text + "%'";
-                Select += " ORDER BY " + Criterio();
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT Identificador_Usuario AS Indentificador, Nombre_Usuario AS Nombre, Accesibilidad_Usuario AS Accesibilidad, Estado_Usuario As Estado FROM Usuarios";
+                select += " WHERE " + Criterio() + " LIKE '%" + txtUSUDato.Text + "%'";
+                select += " ORDER BY " + Criterio();
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
                 dtgUsuarios.DataSource = DT;
@@ -50,36 +45,30 @@ namespace Caja_UNAPEC
                 dtgUsuarios.Refresh();
                 dtgUsuarios.PerformLayout();
 
-
                 Con.Close();
-
             }
             catch (Exception Ex)
             {
                 Con.Close();
                 MessageBox.Show("Error al recoger la información de la base de datos \n" + Ex.Message);
             }
-
-
         }
 
-        private void btnUSUGuardar_Click(object sender, EventArgs e)
+        private void BtnUSUGuardar_Click(object sender, EventArgs e)
         {
-            string Nombre = txtUSUNombre.Text;
-            string Identificador = txtUSUIdentificador.Text;
-            string ClaveR = ObtenerClave();
-            string ClaveE = GetSha1Hash(ClaveR); 
-            string Accesibilidad = cbxUSUAccesibilidad.Text;
-            string Estado = ObtenerEstado();
-
-
+            string nombre = txtUSUNombre.Text;
+            string identificador = txtUSUIdentificador.Text;
+            string claveR = ObtenerClave();
+            string claveE = GetSha1Hash(claveR); 
+            string accesibilidad = cbxUSUAccesibilidad.Text;
+            string estado = ObtenerEstado();
 
             try
             {
                 Con.Open();
 
                 string Insert = "INSERT INTO Usuarios (Nombre_Usuario, Identificador_Usuario, Clave_Usuario, Accesibilidad_Usuario, Estado_Usuario) VALUES ('";
-                Insert += Nombre + "' , '" + Identificador + "' , '" + ClaveE + "' , '" + Accesibilidad +  "' , '" + Estado + "')";
+                Insert += nombre + "' , '" + identificador + "' , '" + claveE + "' , '" + accesibilidad +  "' , '" + estado + "')";
                 SqlCommand Query = new SqlCommand(Insert, Con);
                 Query.ExecuteNonQuery();
 
@@ -90,10 +79,9 @@ namespace Caja_UNAPEC
                 MessageBox.Show("Usuario registrado.");
                 MessageBox.Show("Sea generado la clave para este usuario. \n Haga clik en 'Limpiar' para finalizar.'");
 
-
                 ESTSelectAll();
 
-                txtUSUClave.Text = ClaveR;
+                txtUSUClave.Text = claveR;
             }
             catch (Exception Ex)
             {
@@ -102,20 +90,19 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnUSUModificar_Click(object sender, EventArgs e)
+        private void BtnUSUModificar_Click(object sender, EventArgs e)
         {
-            string ID = txtUSUID.Text;
-            string Nombre = txtUSUNombre.Text;
-            string Identificador = txtUSUIdentificador.Text;
-            string Accesibilidad = cbxUSUAccesibilidad.Text;
-            string Estado = ObtenerEstado();
+            string id = txtUSUID.Text;
+            string nombre = txtUSUNombre.Text;
+            string identificador = txtUSUIdentificador.Text;
+            string accesibilidad = cbxUSUAccesibilidad.Text;
+            string estado = ObtenerEstado();
 
             try
             {
-
                 Con.Open();
 
-                string Update = "UPDATE Usuarios SET Nombre_Usuario = '" + Nombre + "', Identificador_Usuario = '" + Identificador + "', Accesibilidad_Usuario = '" + Accesibilidad + "', Estado_Usuario = '" + Estado + "' FROM Usuarios WHERE ID_Usuario = " + ID + ";";
+                string Update = "UPDATE Usuarios SET Nombre_Usuario = '" + nombre + "', Identificador_Usuario = '" + identificador + "', Accesibilidad_Usuario = '" + accesibilidad + "', Estado_Usuario = '" + estado + "' FROM Usuarios WHERE ID_Usuario = " + id + ";";
 
                 SqlCommand Query = new SqlCommand(Update, Con);
                 Query.ExecuteNonQuery();
@@ -126,7 +113,6 @@ namespace Caja_UNAPEC
 
                 LimpiarCampos();
                 ESTSelectAll();
-
             }
             catch (Exception Ex)
             {
@@ -135,16 +121,16 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnUSUEliminar_Click(object sender, EventArgs e)
+        private void BtnUSUEliminar_Click(object sender, EventArgs e)
         {
-            string Usuario = txtUSUID.Text;
+            string usuario = txtUSUID.Text;
 
             try
             {
                 Con.Open();
 
-                string Delete = "DELETE FROM Usuario WHERE ID_Usuario = '" + Usuario + "'";
-                SqlCommand Query = new SqlCommand(Delete, Con);
+                string delete = "DELETE FROM Usuario WHERE ID_Usuario = '" + usuario + "'";
+                SqlCommand Query = new SqlCommand(delete, Con);
                 Query.ExecuteNonQuery();
 
                 Con.Close();
@@ -163,12 +149,12 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnUSULimpiar_Click(object sender, EventArgs e)
+        private void BtnUSULimpiar_Click(object sender, EventArgs e)
         {
             LimpiarCampos();
         }
 
-        private void btnUSUBuscar_Click(object sender, EventArgs e)
+        private void BtnUSUBuscar_Click(object sender, EventArgs e)
         {
             ESTSelectAll();
         }
@@ -235,20 +221,18 @@ namespace Caja_UNAPEC
         private static Random Generar = new Random();
         public string ObtenerClave()
         {
-            
-            string Numero = null;
+            string numero = null;
 
             const string chars = "0123456789";
-            Numero = new string(Enumerable.Repeat(chars, 7).Select(s => s[Generar.Next(s.Length)]).ToArray());
-
+            numero = new string(Enumerable.Repeat(chars, 7).Select(s => s[Generar.Next(s.Length)]).ToArray());
            
-            return Numero;
+            return numero;
         }
 
         internal static string GetSha1Hash(string text)
         {
-            if (String.IsNullOrEmpty(text))
-                return String.Empty;
+            if (string.IsNullOrEmpty(text))
+                return string.Empty;
 
             using (var sha1 = new System.Security.Cryptography.SHA256Managed())
             {
@@ -256,32 +240,31 @@ namespace Caja_UNAPEC
 
                 byte[] hash = sha1.ComputeHash(textData);
 
-                return BitConverter.ToString(hash).Replace("-", String.Empty);
+                return BitConverter.ToString(hash).Replace("-", string.Empty);
             }
         }
 
-        private void dtgUsuarios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DtgUsuarios_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow Row = dtgUsuarios.CurrentRow;
 
             try
             {
                 Con.Open();
-                string Select = "SELECT ID_Usuario FROM Usuarios WHERE Identificador_Usuario = '" + Row.Cells[0].Value.ToString() + "'";
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT ID_Usuario FROM Usuarios WHERE Identificador_Usuario = '" + Row.Cells[0].Value.ToString() + "'";
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
 
-                string ID = DT.Rows[0][0].ToString();
+                string id = DT.Rows[0][0].ToString();
 
                 Con.Close();
-                txtUSUID.Text = ID;
+                txtUSUID.Text = id;
             }
             catch (Exception Ex)
             {
                 Con.Close();
                 MessageBox.Show("Error al obtener el ID del servicio.\n" + Ex.Message);
-
             }
 
             txtUSUIdentificador.Text = Row.Cells[0].Value.ToString();
@@ -301,17 +284,16 @@ namespace Caja_UNAPEC
             HabilitarBotones("M");
         }
 
-        private void btnUSURestablecer_Click(object sender, EventArgs e)
+        private void BtnUSURestablecer_Click(object sender, EventArgs e)
         {
-            string ID = txtUSUID.Text;
-            string ClaveR = ObtenerClave();
-            string ClaveE = GetSha1Hash(ClaveR);
+            string id = txtUSUID.Text;
+            string claveR = ObtenerClave();
+            string claveE = GetSha1Hash(claveR);
 
-            
             try
             {
                 Con.Open();
-                string UpdatePass = "UPDATE Usuarios SET Clave_Usuario = '" + ClaveE + "' WHERE ID_Usuario = " + ID + ";";
+                string UpdatePass = "UPDATE Usuarios SET Clave_Usuario = '" + claveE + "' WHERE ID_Usuario = " + id + ";";
 
                 SqlCommand Query = new SqlCommand(UpdatePass, Con);
                 Query.ExecuteNonQuery();
@@ -320,9 +302,8 @@ namespace Caja_UNAPEC
 
                 MessageBox.Show("Clave modificada \n Haga clik en 'Limpiar' para continuar.");
 
-                txtUSUClave.Text = ClaveR;
+                txtUSUClave.Text = claveR;
                 ESTSelectAll();
-
             }
             catch (Exception Ex)
             {

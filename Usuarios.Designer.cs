@@ -122,7 +122,7 @@
             this.btnUSUBuscar.TabIndex = 39;
             this.btnUSUBuscar.Text = "Buscar";
             this.btnUSUBuscar.UseVisualStyleBackColor = false;
-            this.btnUSUBuscar.Click += new System.EventHandler(this.btnUSUBuscar_Click);
+            this.btnUSUBuscar.Click += new System.EventHandler(this.BtnUSUBuscar_Click);
             // 
             // panel18
             // 
@@ -160,7 +160,7 @@
             this.btnUSUEliminar.TabIndex = 24;
             this.btnUSUEliminar.Text = "Eliminar";
             this.btnUSUEliminar.UseVisualStyleBackColor = false;
-            this.btnUSUEliminar.Click += new System.EventHandler(this.btnUSUEliminar_Click);
+            this.btnUSUEliminar.Click += new System.EventHandler(this.BtnUSUEliminar_Click);
             // 
             // btnUSUGuardar
             // 
@@ -175,7 +175,7 @@
             this.btnUSUGuardar.TabIndex = 23;
             this.btnUSUGuardar.Text = "Guardar";
             this.btnUSUGuardar.UseVisualStyleBackColor = false;
-            this.btnUSUGuardar.Click += new System.EventHandler(this.btnUSUGuardar_Click);
+            this.btnUSUGuardar.Click += new System.EventHandler(this.BtnUSUGuardar_Click);
             // 
             // btnUSUModificar
             // 
@@ -190,7 +190,7 @@
             this.btnUSUModificar.TabIndex = 22;
             this.btnUSUModificar.Text = "Modificar";
             this.btnUSUModificar.UseVisualStyleBackColor = false;
-            this.btnUSUModificar.Click += new System.EventHandler(this.btnUSUModificar_Click);
+            this.btnUSUModificar.Click += new System.EventHandler(this.BtnUSUModificar_Click);
             // 
             // btnUSULimpiar
             // 
@@ -205,7 +205,7 @@
             this.btnUSULimpiar.TabIndex = 3;
             this.btnUSULimpiar.Text = "Limpiar";
             this.btnUSULimpiar.UseVisualStyleBackColor = false;
-            this.btnUSULimpiar.Click += new System.EventHandler(this.btnUSULimpiar_Click);
+            this.btnUSULimpiar.Click += new System.EventHandler(this.BtnUSULimpiar_Click);
             // 
             // label9
             // 
@@ -360,7 +360,7 @@
             this.dtgUsuarios.RowTemplate.Height = 24;
             this.dtgUsuarios.Size = new System.Drawing.Size(579, 450);
             this.dtgUsuarios.TabIndex = 41;
-            this.dtgUsuarios.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgUsuarios_CellDoubleClick);
+            this.dtgUsuarios.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DtgUsuarios_CellDoubleClick);
             // 
             // cbxUSUAccesibilidad
             // 
@@ -408,7 +408,7 @@
             this.btnUSURestablecer.TabIndex = 36;
             this.btnUSURestablecer.Text = "Restablecer";
             this.btnUSURestablecer.UseVisualStyleBackColor = false;
-            this.btnUSURestablecer.Click += new System.EventHandler(this.btnUSURestablecer_Click);
+            this.btnUSURestablecer.Click += new System.EventHandler(this.BtnUSURestablecer_Click);
             // 
             // panel2
             // 

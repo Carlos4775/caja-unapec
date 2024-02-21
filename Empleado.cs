@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Caja_UNAPEC
 {
@@ -16,6 +10,7 @@ namespace Caja_UNAPEC
     {
         SqlConnection Con = null;
         DataTable DT = null;
+
         public Empleado()
         {
             InitializeComponent();
@@ -33,18 +28,16 @@ namespace Caja_UNAPEC
             ESTSelectAll();
         }
 
-
         private void ESTSelectAll()
         {
             try
             {
-
                 Con.Open();
 
-                string Select = "SELECT Cedula_Empleado AS Cédula, Nombre_Empleado AS Nombre, Apellido_Empleado AS Apellido, Tanda_Empleado AS Tanda, Comision_Empleado As Comisión, Estado_Empleado AS Estado, FechaIngreso_Empleado AS 'Fecha de Ingreso' FROM Empleado";
-                Select += " WHERE " + Criterio() + " LIKE '%" + txtEMPDato.Text + "%'";
-                Select += " ORDER BY " + Criterio();
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT Cedula_Empleado AS Cédula, Nombre_Empleado AS Nombre, Apellido_Empleado AS Apellido, Tanda_Empleado AS Tanda, Comision_Empleado As Comisión, Estado_Empleado AS Estado, FechaIngreso_Empleado AS 'Fecha de Ingreso' FROM Empleado";
+                select += " WHERE " + Criterio() + " LIKE '%" + txtEMPDato.Text + "%'";
+                select += " ORDER BY " + Criterio();
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DT = new DataTable();
                 DA.Fill(DT);
                 dtgEmpleados.DataSource = DT;
@@ -52,21 +45,16 @@ namespace Caja_UNAPEC
                 dtgEmpleados.Refresh();
                 dtgEmpleados.PerformLayout();
 
-
                 Con.Close();
-
             }
             catch (Exception Ex)
             {
                 Con.Close();
                 MessageBox.Show("Error al recoger la información de la base de datos \n" + Ex.Message);
             }
-
-
         }
 
-
-        private void dtgEmpleados_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DtgEmpleados_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow Row = dtgEmpleados.CurrentRow;
             txtEMPCedula.Text = Row.Cells[0].Value.ToString();
@@ -86,31 +74,31 @@ namespace Caja_UNAPEC
             HabilitarBotones("M");
         }
 
-        private void btnEMPGuardar_Click(object sender, EventArgs e)
+        private void BtnEMPGuardar_Click(object sender, EventArgs e)
         {
-            string Cedula = txtEMPCedula.Text;
-            string Nombre = txtEMPNombre.Text;
-            string Apellido = txtEMPApellido.Text;
-            string Tanda = ObtenerTanda();
-            string Estado = ObtenerEstado();
-            DateTime Fecha = dtpEMPFechaIngreso.Value;
+            string cedula = txtEMPCedula.Text;
+            string nombre = txtEMPNombre.Text;
+            string apellido = txtEMPApellido.Text;
+            string tanda = ObtenerTanda();
+            string estado = ObtenerEstado();
+            DateTime fecha = dtpEMPFechaIngreso.Value;
             
             if (ObtenerComision() < 0) { MessageBox.Show("El valor de la comisión es invalido."); return; }
-            if (ValidarCedula(Cedula) == false)
+            if (ValidarCedula(cedula) == false)
             {
                 MessageBox.Show("La cédula no es valida");
                 return;
             }
-            double Comision = ObtenerComision();
 
+            double comision = ObtenerComision();
 
             try
             {
                 Con.Open();
 
-                string Insert = "INSERT INTO Empleado (Cedula_Empleado, Nombre_Empleado, Apellido_Empleado, Tanda_Empleado, Comision_Empleado, Estado_Empleado, FechaIngreso_Empleado) VALUES ('";
-                Insert += Cedula + "' , '" + Nombre + "' , '" + Apellido  + "' , '" + Tanda + "' , '" + Comision + "' , '" + Estado + "' , '" + Fecha + "')";
-                SqlCommand Query = new SqlCommand(Insert, Con);
+                string insert = "INSERT INTO Empleado (Cedula_Empleado, Nombre_Empleado, Apellido_Empleado, Tanda_Empleado, Comision_Empleado, Estado_Empleado, FechaIngreso_Empleado) VALUES ('";
+                insert += cedula + "' , '" + nombre + "' , '" + apellido + "' , '" + tanda + "' , '" + comision + "' , '" + estado + "' , '" + fecha + "')";
+                SqlCommand Query = new SqlCommand(insert, Con);
                 Query.ExecuteNonQuery();
 
                 Con.Close();
@@ -127,35 +115,31 @@ namespace Caja_UNAPEC
                 Con.Close();
                 MessageBox.Show("Error al guardar la información de la base de datos.\n" + Ex.Message);
             }
-
         }
 
-        private void btnEMPModificar_Click(object sender, EventArgs e)
+        private void BtnEMPModificar_Click(object sender, EventArgs e)
         {
-            string Cedula = txtEMPCedula.Text;
-            string Nombre = txtEMPNombre.Text;
-            string Apellido = txtEMPApellido.Text;
-            string Tanda = ObtenerTanda();
-            string Estado = ObtenerEstado();
-            DateTime Fecha = dtpEMPFechaIngreso.Value;
+            string cedula = txtEMPCedula.Text;
+            string nombre = txtEMPNombre.Text;
+            string apellido = txtEMPApellido.Text;
+            string tanda = ObtenerTanda();
+            string estado = ObtenerEstado();
+            DateTime fecha = dtpEMPFechaIngreso.Value;
 
             if (ObtenerComision() < 0) { MessageBox.Show("El valor de la comisión es invalido."); return; }
-            if (ValidarCedula(Cedula) == false)
+            if (ValidarCedula(cedula) == false)
             {
                 MessageBox.Show("La cédula no es valida");
                 return;
             }
 
-
-
-            double Comision = ObtenerComision();
+            double comision = ObtenerComision();
 
             try
             {
-
                 Con.Open();
 
-                string Update = "UPDATE Empleado SET Nombre_Empleado = '" + Nombre + "', Apellido_Empleado = '" + Apellido + "', Tanda_Empleado = '" + Tanda + "', Comision_Empleado = '" + Comision + "', Estado_Empleado = '" + Estado + "', FechaIngreso_Empleado = '" + Fecha + "' FROM Empleado WHERE Cedula_Empleado = '" + Cedula + "'";
+                string Update = "UPDATE Empleado SET Nombre_Empleado = '" + nombre + "', Apellido_Empleado = '" + apellido + "', Tanda_Empleado = '" + tanda + "', Comision_Empleado = '" + comision + "', Estado_Empleado = '" + estado + "', FechaIngreso_Empleado = '" + fecha + "' FROM Empleado WHERE Cedula_Empleado = '" + cedula + "'";
 
                 SqlCommand Query = new SqlCommand(Update, Con);
                 Query.ExecuteNonQuery();
@@ -176,16 +160,16 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnEMPEliminar_Click(object sender, EventArgs e)
+        private void BtnEMPEliminar_Click(object sender, EventArgs e)
         {
-            string Cedula = txtEMPCedula.Text;
+            string cedula = txtEMPCedula.Text;
 
             try
             {
                 Con.Open();
 
-                string Delete = "DELETE FROM Empleado WHERE Cedula_Empleado = '" + Cedula + "'";
-                SqlCommand Query = new SqlCommand(Delete, Con);
+                string delete = "DELETE FROM Empleado WHERE Cedula_Empleado = '" + cedula + "'";
+                SqlCommand Query = new SqlCommand(delete, Con);
                 Query.ExecuteNonQuery();
 
                 Con.Close();
@@ -204,16 +188,15 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnEMPLimpiar_Click(object sender, EventArgs e)
+        private void BtnEMPLimpiar_Click(object sender, EventArgs e)
         {
             LimpiarCampos();
         }
 
-        private void btnEMPBuscar_Click(object sender, EventArgs e)
+        private void BtnEMPBuscar_Click(object sender, EventArgs e)
         {
             ESTSelectAll();
         }
-
 
         private void LimpiarCampos()
         {
@@ -231,6 +214,7 @@ namespace Caja_UNAPEC
 
             HabilitarBotones("A");
         }
+
         private void HabilitarBotones(string C)
         {
             if (C == "A")
@@ -255,7 +239,6 @@ namespace Caja_UNAPEC
             {
                 return "Cedula_Empleado";
             }
-
             else if (cbxEMPCriterio.Text == "Nombre")
             {
                 return "Nombre_Empleado";
@@ -283,9 +266,7 @@ namespace Caja_UNAPEC
             else return null;
         }
 
-
         public static bool ValidarCedula(string pCedula)
-
         {
             int vnTotal = 0;
             string vcCedula = pCedula.Replace("-", "");
@@ -297,11 +278,11 @@ namespace Caja_UNAPEC
 
             for (int vDig = 1; vDig <= pLongCed; vDig++)
             {
-                int vCalculo = Int32.Parse(vcCedula.Substring(vDig - 1, 1)) * digitoMult[vDig - 1];
+                int vCalculo = int.Parse(vcCedula.Substring(vDig - 1, 1)) * digitoMult[vDig - 1];
                 if (vCalculo < 10)
                     vnTotal += vCalculo;
                 else
-                    vnTotal += Int32.Parse(vCalculo.ToString().Substring(0, 1)) + Int32.Parse(vCalculo.ToString().Substring(1, 1));
+                    vnTotal += int.Parse(vCalculo.ToString().Substring(0, 1)) + int.Parse(vCalculo.ToString().Substring(1, 1));
             }
 
             if (vnTotal % 10 == 0)
@@ -309,12 +290,14 @@ namespace Caja_UNAPEC
             else
                 return false;
         }
+
         private string ObtenerTanda()
         {
             if (rbEMPDiurna.Checked == true) { rbEMPNocturna.Checked = false; return "Diurna"; }
             else if (rbEMPNocturna.Checked == true) { rbEMPDiurna.Checked = false; return "Nocturna"; }
             else return "Activo";
         }
+
         private string ObtenerEstado()
         {
             if (rbEMPActivo.Checked == true) { rbEMPInactivo.Checked = false; return "Activo"; }
@@ -331,12 +314,10 @@ namespace Caja_UNAPEC
             return Comision;
         }
 
-
         private void ExportaExcel(DataGridView DGT, string Nombre)
         {
             try
             {
-
                 StreamWriter SW = new StreamWriter(Nombre, false, System.Text.Encoding.GetEncoding(1252));
 
                 SW.WriteLine("sep=,");
@@ -368,31 +349,28 @@ namespace Caja_UNAPEC
             {
                 MessageBox.Show("Error al exportar el archivo.\n" + Ex.Message);
             }
-
-
         }
 
-        private void btnEMPExportar_Click(object sender, EventArgs e)
+        private void BtnEMPExportar_Click(object sender, EventArgs e)
         {
-            string Archivo = "";
+            SaveFileDialog ExportarEn = new SaveFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                Title = "Guardar en",
+                CheckFileExists = false,
+                CheckPathExists = true,
+                Filter = "Archivo de Exel (*.csv)|*.csv|Todos los arvhivos (*.*)|*.*",
+                DefaultExt = ".csv",
+                FilterIndex = 1,
+                RestoreDirectory = true,
+                FileName = "Empleados"
+            };
 
-            SaveFileDialog ExportarEn = new SaveFileDialog();
-            ExportarEn.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            ExportarEn.Title = "Guardar en";
-            ExportarEn.CheckFileExists = false;
-            ExportarEn.CheckPathExists = true;
-            ExportarEn.Filter = "Archivo de Exel (*.csv)|*.csv|Todos los arvhivos (*.*)|*.*";
-            ExportarEn.DefaultExt = ".csv";
-            ExportarEn.FilterIndex = 1;
-            ExportarEn.RestoreDirectory = true;
-            ExportarEn.FileName = "Empleados";
             if (ExportarEn.ShowDialog() == DialogResult.OK)
             {
-                Archivo = ExportarEn.FileName;
+                string Archivo = ExportarEn.FileName;
                 ExportaExcel(dtgEmpleados, Archivo);
             }
-
         }
-
     }
 }

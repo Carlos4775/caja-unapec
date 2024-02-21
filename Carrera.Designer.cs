@@ -89,7 +89,7 @@
             this.btnCAREliminar.TabIndex = 24;
             this.btnCAREliminar.Text = "Eliminar";
             this.btnCAREliminar.UseVisualStyleBackColor = false;
-            this.btnCAREliminar.Click += new System.EventHandler(this.btnCAREliminar_Click);
+            this.btnCAREliminar.Click += new System.EventHandler(this.BtnCAREliminar_Click);
             // 
             // btnCARGuardar
             // 
@@ -104,7 +104,7 @@
             this.btnCARGuardar.TabIndex = 23;
             this.btnCARGuardar.Text = "Guardar";
             this.btnCARGuardar.UseVisualStyleBackColor = false;
-            this.btnCARGuardar.Click += new System.EventHandler(this.btnCARGuardar_Click);
+            this.btnCARGuardar.Click += new System.EventHandler(this.BtnCARGuardar_Click);
             // 
             // btnCARModificar
             // 
@@ -119,7 +119,7 @@
             this.btnCARModificar.TabIndex = 22;
             this.btnCARModificar.Text = "Modificar";
             this.btnCARModificar.UseVisualStyleBackColor = false;
-            this.btnCARModificar.Click += new System.EventHandler(this.btnCARModificar_Click);
+            this.btnCARModificar.Click += new System.EventHandler(this.BtnCARModificar_Click);
             // 
             // btnCARLimpiar
             // 
@@ -134,7 +134,7 @@
             this.btnCARLimpiar.TabIndex = 3;
             this.btnCARLimpiar.Text = "Limpiar";
             this.btnCARLimpiar.UseVisualStyleBackColor = false;
-            this.btnCARLimpiar.Click += new System.EventHandler(this.btnCARLimpiar_Click);
+            this.btnCARLimpiar.Click += new System.EventHandler(this.BtnCARLimpiar_Click);
             // 
             // label9
             // 
@@ -277,7 +277,7 @@
             this.btnCARBuscar.TabIndex = 38;
             this.btnCARBuscar.Text = "Buscar";
             this.btnCARBuscar.UseVisualStyleBackColor = false;
-            this.btnCARBuscar.Click += new System.EventHandler(this.btnCARBuscar_Click);
+            this.btnCARBuscar.Click += new System.EventHandler(this.BtnCARBuscar_Click);
             // 
             // dtgCarreras
             // 
@@ -312,7 +312,7 @@
             this.dtgCarreras.RowTemplate.Height = 24;
             this.dtgCarreras.Size = new System.Drawing.Size(579, 450);
             this.dtgCarreras.TabIndex = 40;
-            this.dtgCarreras.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgCarreras_CellDoubleClick);
+            this.dtgCarreras.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DtgCarreras_CellDoubleClick);
             // 
             // btnCARExportar
             // 
@@ -328,7 +328,7 @@
             this.btnCARExportar.TabIndex = 41;
             this.btnCARExportar.Text = "Exportar";
             this.btnCARExportar.UseVisualStyleBackColor = false;
-            this.btnCARExportar.Click += new System.EventHandler(this.btnCARExportar_Click);
+            this.btnCARExportar.Click += new System.EventHandler(this.BtnCARExportar_Click);
             // 
             // Carrera
             // 

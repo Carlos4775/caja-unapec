@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Caja_UNAPEC
 {
@@ -16,56 +10,51 @@ namespace Caja_UNAPEC
     {
         SqlConnection Con = null;
         DataTable DT = null;
+
         public Estudiantes()
         {
             InitializeComponent();
-
         }
 
         public void InicializarEstudiante(string Conn)
         {
-            
-
             Con = new SqlConnection(Conn);
 
-            
             cbxETDCriterio.SelectedIndex = 0;
 
-            
             HabilitarBotones("A");
 
             LimpiarCampos();
             ObtenerCarreras();
             ESTSelectAll();
         }
-        
 
-        private void btnETDBuscar_Click(object sender, EventArgs e)
+        private void BtnETDBuscar_Click(object sender, EventArgs e)
         {
             ESTSelectAll();
         }
 
-        private void btnETDGuardar_Click(object sender, EventArgs e)
+        private void BtnETDGuardar_Click(object sender, EventArgs e)
         {
-            string Matricula = txtETDMatricula.Text;
-            string Nombre = txtETDNombre.Text;
-            string Apellido = txtETDApellido.Text;
-            string Cedula = txtETDCedula.Text;
-            string Carrera = ObtenerCarrera();
-            string Estado = ObtenerEstado();
+            string matricula = txtETDMatricula.Text;
+            string nombre = txtETDNombre.Text;
+            string apellido = txtETDApellido.Text;
+            string cedula = txtETDCedula.Text;
+            string carrera = ObtenerCarrera();
+            string estado = ObtenerEstado();
 
-
-            if (ValidarCedula(Cedula) == false)
+            if (ValidarCedula(cedula) == false)
             {
                 MessageBox.Show("La cédula no es valida");
                 return;
             }
+
             try
             {
                 Con.Open();
 
                 string Insert = "INSERT INTO Estudiante (Matricula_Estudiante, Nombre_Estudiante, Apellido_Estudiante, Cedula_Estudiante, Codigo_Carrera, Estado_Estudiante) VALUES ('";
-                Insert += Matricula + "' , '" + Nombre + "' , '" + Apellido + "' , '" + Cedula + "' , '" + Carrera + "' , '" + Estado + "')";
+                Insert += matricula + "' , '" + nombre + "' , '" + apellido + "' , '" + cedula + "' , '" + carrera + "' , '" + estado + "')";
                 SqlCommand Query = new SqlCommand(Insert, Con);
                 Query.ExecuteNonQuery();
 
@@ -77,7 +66,6 @@ namespace Caja_UNAPEC
 
                 LimpiarCampos();
                 HabilitarBotones("A");
-                
             }
             catch (Exception Ex)
             {
@@ -86,37 +74,30 @@ namespace Caja_UNAPEC
             }
         }
 
-
         private void ESTSelectAll()
         {
             try
             {
-
                 Con.Open();
 
-                string Select = "SELECT Matricula_Estudiante AS Matrícula, Nombre_Estudiante AS Nombre, Apellido_Estudiante AS Apellido, Cedula_Estudiante AS Cédula, Codigo_Carrera As Código, Estado_Estudiante AS Estado, Balance_Estudiante AS Balance FROM Estudiante";
-                Select += " WHERE " + Criterio() + " LIKE '%" + txtETDDato.Text + "%'";
-                Select += " ORDER BY " + Criterio();
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT Matricula_Estudiante AS Matrícula, Nombre_Estudiante AS Nombre, Apellido_Estudiante AS Apellido, Cedula_Estudiante AS Cédula, Codigo_Carrera As Código, Estado_Estudiante AS Estado, Balance_Estudiante AS Balance FROM Estudiante";
+                select += " WHERE " + Criterio() + " LIKE '%" + txtETDDato.Text + "%'";
+                select += " ORDER BY " + Criterio();
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DT = new DataTable();
                 DA.Fill(DT);
                 dtgEstudiantes.DataSource = DT;
 
                 dtgEstudiantes.Refresh();
-                
 
                 Con.Close();
-
             }
             catch (Exception Ex)
             {
                 Con.Close();
                 MessageBox.Show("Error al recoger la información de la base de datos.\n" + Ex.Message);
             }
-
-
         }
-
 
         private string Criterio()
         {
@@ -124,7 +105,6 @@ namespace Caja_UNAPEC
             {
                 return "Matricula_Estudiante";
             }
-
             else if (cbxETDCriterio.Text == "Nombre")
             {
                 return "Nombre_Estudiante";
@@ -157,7 +137,6 @@ namespace Caja_UNAPEC
 
         private string ObtenerCarrera()
         {
-            
             try
             {
                 Con.Open();
@@ -166,11 +145,10 @@ namespace Caja_UNAPEC
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
 
-                string Carrera = DT.Rows[0][0].ToString();
+                string carrera = DT.Rows[0][0].ToString();
                 
                 Con.Close();
-                return Carrera;
-
+                return carrera;
             }
             catch (Exception Ex)
             {
@@ -178,19 +156,17 @@ namespace Caja_UNAPEC
                 MessageBox.Show("Error al obtener el código de la carrera.\n" + Ex.Message);
                 return null;
             }
-
-            
         }
 
         private void ObtenerCarreras()
         {
-            
             cbxETDCarrera.Items.Clear();
+
             try
             {
                 Con.Open();
-                string Select = "SELECT Nombre_Carrera AS Carrera FROM Carrera";
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT Nombre_Carrera AS Carrera FROM Carrera";
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
 
@@ -208,13 +184,12 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnETDLimpiar_Click(object sender, EventArgs e)
+        private void BtnETDLimpiar_Click(object sender, EventArgs e)
         {
             LimpiarCampos();
         }
 
-
-        private void HabilitarBotones (string C)
+        private void HabilitarBotones(string C)
         {
             if (C == "A")
             {
@@ -222,12 +197,13 @@ namespace Caja_UNAPEC
                 btnETDModificar.Enabled = false;
                 btnETDEliminar.Enabled = false;
                 txtETDMatricula.ReadOnly = false;
-            } else if (C == "M")
-                {
-                    btnETDGuardar.Enabled = false;
-                    btnETDModificar.Enabled = true;
-                    btnETDEliminar.Enabled = true;
-                    txtETDMatricula.ReadOnly = true;
+            } 
+            else if (C == "M")
+            {
+                btnETDGuardar.Enabled = false;
+                btnETDModificar.Enabled = true;
+                btnETDEliminar.Enabled = true;
+                txtETDMatricula.ReadOnly = true;
             }
         }
 
@@ -245,7 +221,7 @@ namespace Caja_UNAPEC
             HabilitarBotones("A");
         }
 
-        private void dtgEstudiantes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DtgEstudiantes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow Row = dtgEstudiantes.CurrentRow;
             txtETDMatricula.Text = Row.Cells[0].Value.ToString();
@@ -257,23 +233,21 @@ namespace Caja_UNAPEC
             try
             {
                 Con.Open();
-                string Select = "SELECT Nombre_Carrera FROM Carrera WHERE Codigo_Carrera = '" + Row.Cells[4].Value.ToString() + "'";
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT Nombre_Carrera FROM Carrera WHERE Codigo_Carrera = '" + Row.Cells[4].Value.ToString() + "'";
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
 
-                string Carrera = DT.Rows[0][0].ToString();
+                string carrera = DT.Rows[0][0].ToString();
 
                 Con.Close();
-                cbxETDCarrera.Text = Carrera;
+                cbxETDCarrera.Text = carrera;
             }
             catch (Exception Ex)
             {
                 Con.Close();
                 MessageBox.Show("Error al obtener el nombre de la carrera.\n" + Ex.Message);
-
             }
-
 
             if (Row.Cells[5].Value.ToString() == "Activo") { rbETDActivo.Checked = true; rbETDInactivo.Checked = false; }
             else if (Row.Cells[5].Value.ToString() == "Inactivo") { rbETDActivo.Checked = false; rbETDInactivo.Checked = true; }
@@ -281,16 +255,16 @@ namespace Caja_UNAPEC
             HabilitarBotones("M");
         }
 
-        private void btnETDModificar_Click(object sender, EventArgs e)
+        private void BtnETDModificar_Click(object sender, EventArgs e)
         {
-            string Matricula = txtETDMatricula.Text;
-            string Nombre = txtETDNombre.Text;
-            string Apellido = txtETDApellido.Text;
-            string Cedula = txtETDCedula.Text;
-            string Carrera = ObtenerCarrera();
-            string Estado = ObtenerEstado();
+            string matricula = txtETDMatricula.Text;
+            string nombre = txtETDNombre.Text;
+            string apellido = txtETDApellido.Text;
+            string cedula = txtETDCedula.Text;
+            string carrera = ObtenerCarrera();
+            string estado = ObtenerEstado();
 
-            if (ValidarCedula(Cedula) == false)
+            if (ValidarCedula(cedula) == false)
             {
                 MessageBox.Show("La cédula no es valida");
                 return;
@@ -298,10 +272,9 @@ namespace Caja_UNAPEC
 
             try
             {
-
                 Con.Open();
 
-                string Update = "UPDATE Estudiante SET Nombre_Estudiante = '" + Nombre + "', Apellido_Estudiante = '" + Apellido + "', Cedula_Estudiante = '" + Cedula + "', Codigo_Carrera = '" + Carrera + "', Estado_Estudiante = '" + Estado + "' FROM Estudiante WHERE Matricula_Estudiante = '" + Matricula + "'";
+                string Update = "UPDATE Estudiante SET Nombre_Estudiante = '" + nombre + "', Apellido_Estudiante = '" + apellido + "', Cedula_Estudiante = '" + cedula + "', Codigo_Carrera = '" + carrera + "', Estado_Estudiante = '" + estado + "' FROM Estudiante WHERE Matricula_Estudiante = '" + matricula + "'";
 
                 SqlCommand Query = new SqlCommand(Update, Con);
                 Query.ExecuteNonQuery();
@@ -314,26 +287,23 @@ namespace Caja_UNAPEC
 
                 LimpiarCampos();
                 HabilitarBotones("A");
-                
             }
             catch (Exception Ex)
             {
                 Con.Close();
                 MessageBox.Show("Error al actualizar la información de la base de datos.\n" + Ex.Message);
             }
-
-
         }
 
-        private void btnETDEliminar_Click(object sender, EventArgs e)
+        private void BtnETDEliminar_Click(object sender, EventArgs e)
         {
-            string Matricula = txtETDMatricula.Text;
+            string matricula = txtETDMatricula.Text;
 
             try
             {
                 Con.Open();
 
-                string Delete = "DELETE FROM Estudiante WHERE Matricula_Estudiante = '" + Matricula + "'";
+                string Delete = "DELETE FROM Estudiante WHERE Matricula_Estudiante = '" + matricula + "'";
                 SqlCommand Query = new SqlCommand(Delete, Con);
                 Query.ExecuteNonQuery();
 
@@ -345,7 +315,6 @@ namespace Caja_UNAPEC
 
                 LimpiarCampos();
                 HabilitarBotones("A");
-                
             }
             catch (Exception Ex)
             {
@@ -355,7 +324,6 @@ namespace Caja_UNAPEC
         }
 
         public static bool ValidarCedula(string pCedula)
-
         {
             int vnTotal = 0;
             string vcCedula = pCedula.Replace("-", "");
@@ -367,11 +335,11 @@ namespace Caja_UNAPEC
 
             for (int vDig = 1; vDig <= pLongCed; vDig++)
             {
-                int vCalculo = Int32.Parse(vcCedula.Substring(vDig - 1, 1)) * digitoMult[vDig - 1];
+                int vCalculo = int.Parse(vcCedula.Substring(vDig - 1, 1)) * digitoMult[vDig - 1];
                 if (vCalculo < 10)
                     vnTotal += vCalculo;
                 else
-                    vnTotal += Int32.Parse(vCalculo.ToString().Substring(0, 1)) + Int32.Parse(vCalculo.ToString().Substring(1, 1));
+                    vnTotal += int.Parse(vCalculo.ToString().Substring(0, 1)) + int.Parse(vCalculo.ToString().Substring(1, 1));
             }
 
             if (vnTotal % 10 == 0)
@@ -380,33 +348,32 @@ namespace Caja_UNAPEC
                 return false;
         }
 
-        private void ExportaExcel(DataGridView DGT, string Nombre)
+        private void ExportaExcel(DataGridView DGT, string nombre)
         {
             try
             {
-
-                StreamWriter SW = new StreamWriter(Nombre, false, System.Text.Encoding.GetEncoding(1252));
+                StreamWriter SW = new StreamWriter(nombre, false, System.Text.Encoding.GetEncoding(1252));
 
                 SW.WriteLine("sep=,");
 
-                string Header = "";
+                string header = "";
 
                 foreach (DataGridViewColumn col in DGT.Columns)
                 {
-                    Header += col.Name + ",";
+                    header += col.Name + ",";
                 }
-                Header = Header.Remove(Header.Length - 1);
+                header = header.Remove(header.Length - 1);
                 
-                SW.WriteLine(Header);
+                SW.WriteLine(header);
 
                 foreach (DataRow DR in DT.Rows)
                 {
-                    string Linea = "";
+                    string linea = "";
                     foreach (DataColumn DC in DT.Columns)
                     {
-                        Linea += DR[DC].ToString() + ",";
+                        linea += DR[DC].ToString() + ",";
                     }
-                    SW.WriteLine(Linea);
+                    SW.WriteLine(linea);
                 }
 
                 SW.Close();
@@ -415,31 +382,29 @@ namespace Caja_UNAPEC
             catch (Exception Ex)
             {
                 MessageBox.Show("Error al exportar el archivo.\n" + Ex.Message);
-            }
-            
-            
+            }   
         }
 
-        private void btnETDExportar_Click(object sender, EventArgs e)
+        private void BtnETDExportar_Click(object sender, EventArgs e)
         {
-            string Archivo = "";
+            SaveFileDialog ExportarEn = new SaveFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                Title = "Guardar en",
+                CheckFileExists = false,
+                CheckPathExists = true,
+                Filter = "Archivo de Exel (*.csv)|*.csv|Todos los arvhivos (*.*)|*.*",
+                DefaultExt = ".csv",
+                FilterIndex = 1,
+                RestoreDirectory = true,
+                FileName = "Estudiantes"
+            };
 
-            SaveFileDialog ExportarEn = new SaveFileDialog();
-            ExportarEn.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);      
-            ExportarEn.Title = "Guardar en";
-            ExportarEn.CheckFileExists = false;
-            ExportarEn.CheckPathExists = true;
-            ExportarEn.Filter = "Archivo de Exel (*.csv)|*.csv|Todos los arvhivos (*.*)|*.*";
-            ExportarEn.DefaultExt = ".csv";
-            ExportarEn.FilterIndex = 1;
-            ExportarEn.RestoreDirectory = true;
-            ExportarEn.FileName = "Estudiantes";
             if (ExportarEn.ShowDialog() == DialogResult.OK)
             {
-                Archivo = ExportarEn.FileName;
-                ExportaExcel(dtgEstudiantes, Archivo);
+                string archivo = ExportarEn.FileName;
+                ExportaExcel(dtgEstudiantes, archivo);
             }
-
         }
     }
 }

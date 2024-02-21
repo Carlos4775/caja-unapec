@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace Caja_UNAPEC
 {
@@ -16,6 +11,7 @@ namespace Caja_UNAPEC
     {
         SqlConnection Con = null;
         DataTable DT = null;
+
         public Movimientos()
         {
             InitializeComponent();
@@ -34,7 +30,6 @@ namespace Caja_UNAPEC
             cbxMCCriterio.SelectedIndex = 0;
             cbxMCEstado.SelectedIndex = 0;
 
-
             LimpiarCampos();
             HabilitarBotones("A");
             
@@ -45,13 +40,12 @@ namespace Caja_UNAPEC
         {
             try
             {
-
                 Con.Open();
 
-                string Select = "SELECT NO_MovimientoCaja AS '# Movimiento', Nombre_Servicio AS Servicio, Nombre_TipoDoc AS Documento, Matricula_Estudiante AS Estudiante, Nombre_Empleado As Empleado, Nombre_FormaDePAgo AS 'Forma de pago', Monto_MovimientoCaja AS Monto, Fecha_MovimientoCaja AS Fecha, Estado_MovimientoCaja AS Estado FROM MovimientoDeCaja, Servicios, Empleado, Tipo_Documento, FormaDePAgo WHERE Empleado.Cedula_Empleado = MovimientoDeCaja.Cedula_Empleado AND Tipo_Documento.ID_TipoDoc= MovimientoDeCaja.ID_TipoDoc AND Servicios.ID_Servicio = MovimientoDeCaja.ID_Servicio AND FormaDePAgo.ID_FormaDePAgo = MovimientoDeCaja.ID_FormaDePAgo ";
-                Select += " AND " + Criterio() + " LIKE '%" + txtMCDato.Text + "%'";
-                Select += " ORDER BY " + Criterio();
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT NO_MovimientoCaja AS '# Movimiento', Nombre_Servicio AS Servicio, Nombre_TipoDoc AS Documento, Matricula_Estudiante AS Estudiante, Nombre_Empleado As Empleado, Nombre_FormaDePAgo AS 'Forma de pago', Monto_MovimientoCaja AS Monto, Fecha_MovimientoCaja AS Fecha, Estado_MovimientoCaja AS Estado FROM MovimientoDeCaja, Servicios, Empleado, Tipo_Documento, FormaDePAgo WHERE Empleado.Cedula_Empleado = MovimientoDeCaja.Cedula_Empleado AND Tipo_Documento.ID_TipoDoc= MovimientoDeCaja.ID_TipoDoc AND Servicios.ID_Servicio = MovimientoDeCaja.ID_Servicio AND FormaDePAgo.ID_FormaDePAgo = MovimientoDeCaja.ID_FormaDePAgo ";
+                select += " AND " + Criterio() + " LIKE '%" + txtMCDato.Text + "%'";
+                select += " ORDER BY " + Criterio();
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DT = new DataTable();
                 DA.Fill(DT);
 
@@ -59,46 +53,42 @@ namespace Caja_UNAPEC
                 dtgMovimientos.Refresh();
 
                 Con.Close();
-
             }
             catch (Exception Ex)
             {
                 Con.Close();
                 MessageBox.Show("Error al recoger la información de la base de datos.\n" + Ex.Message);
             }
-
-
         }
 
-        private void btnMCGuardar_Click(object sender, EventArgs e)
+        private void BtnMCGuardar_Click(object sender, EventArgs e)
         {
-            string Numero = ObtenerNumero();
-            string Servicio = ObtenerServicio();
-            string Documento = ObtenerDocumento();
-            string Matricula = cbxMCSolicitante.Text;
-            string Empleado = ObtenerEmpleado();
-            string FormaPago = ObtenerFormaDePago();
-            string Estado = cbxMCEstado.Text;
-            DateTime Fecha = dtpMCFechaPago.Value;
+            string numero = ObtenerNumero();
+            string servicio = ObtenerServicio();
+            string documento = ObtenerDocumento();
+            string matricula = cbxMCSolicitante.Text;
+            string empleado = ObtenerEmpleado();
+            string formaPago = ObtenerFormaDePago();
+            string estado = cbxMCEstado.Text;
+            DateTime fecha = dtpMCFechaPago.Value;
             
-            string Monto;
+            string monto;
             
-            if (Estado == "Solicitado")
+            if (estado == "Solicitado")
             {
-                Monto = txtMCMonto.Text;
-            } else
+                monto = txtMCMonto.Text;
+            } 
+            else
             {
-                Monto = "0";
+                monto = "0";
             }
-
-                
 
             try
             {
                 Con.Open();
 
                 string Insert = "INSERT INTO MovimientoDeCaja (NO_MovimientoCaja, ID_Servicio, ID_TipoDoc, Matricula_Estudiante, Cedula_Empleado, ID_FormaDePago, Monto_MovimientoCaja, Estado_MovimientoCaja, Fecha_MovimientoCaja) VALUES ('";
-                Insert +=  Numero + "' , '" + Servicio + "' , '" + Documento + "' , '" + Matricula + "' , '" + Empleado + "' , '" + FormaPago + "' , '" + Monto + "' , '" + Estado + "' , '" + Fecha + "')";
+                Insert +=  numero + "' , '" + servicio + "' , '" + documento + "' , '" + matricula + "' , '" + empleado + "' , '" + formaPago + "' , '" + monto + "' , '" + estado + "' , '" + fecha + "')";
                 SqlCommand Query = new SqlCommand(Insert, Con);
                 Query.ExecuteNonQuery();
 
@@ -106,7 +96,7 @@ namespace Caja_UNAPEC
 
                 MessageBox.Show("Movimiento registrado.");
 
-                ActualizarBalance(Matricula);
+                ActualizarBalance(matricula);
                 ESTSelectAll();
 
                 LimpiarCampos();
@@ -119,43 +109,42 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnMCModificar_Click(object sender, EventArgs e)
+        private void BtnMCModificar_Click(object sender, EventArgs e)
         {
-            string Numero = txtMCNumero.Text;
-            string Servicio = ObtenerServicio();
-            string Documento = ObtenerDocumento();
-            string Matricula = cbxMCSolicitante.Text;
-            string Empleado = ObtenerEmpleado();
-            string FormaPago = ObtenerFormaDePago();
-            string Estado = cbxMCEstado.Text;
-            DateTime Fecha = dtpMCFechaPago.Value;
+            string numero = txtMCNumero.Text;
+            string servicio = ObtenerServicio();
+            string documento = ObtenerDocumento();
+            string matricula = cbxMCSolicitante.Text;
+            string empleado = ObtenerEmpleado();
+            string formaPago = ObtenerFormaDePago();
+            string estado = cbxMCEstado.Text;
+            DateTime fecha = dtpMCFechaPago.Value;
 
-            string Monto;
+            string monto;
 
-            if (Estado == "Solicitado")
+            if (estado == "Solicitado")
             {
-                Monto = txtMCMonto.Text;
+                monto = txtMCMonto.Text;
             }
             else
             {
-                Monto = "0";
+                monto = "0";
             }
 
             try
             {
-
                 Con.Open();
 
-                string Update = "UPDATE MovimientoDeCaja SET ID_Servicio = '" + Servicio + "', ID_TipoDoc = '" + Documento + "', Matricula_Estudiante = '" + Matricula + "', Cedula_Empleado = '" + Empleado + "', ID_FormaDePago = '" + FormaPago + "', Monto_MovimientoCaja = '" + Monto + "', Estado_MovimientoCaja = '" + Estado + "', Fecha_MovimientoCaja = '" + Fecha + "' WHERE NO_MovimientoCaja = '" + Numero + "'";
+                string update = "UPDATE MovimientoDeCaja SET ID_Servicio = '" + servicio + "', ID_TipoDoc = '" + documento + "', Matricula_Estudiante = '" + matricula + "', Cedula_Empleado = '" + empleado + "', ID_FormaDePago = '" + formaPago + "', Monto_MovimientoCaja = '" + monto + "', Estado_MovimientoCaja = '" + estado + "', Fecha_MovimientoCaja = '" + fecha + "' WHERE NO_MovimientoCaja = '" + numero + "'";
 
-                SqlCommand Query = new SqlCommand(Update, Con);
+                SqlCommand Query = new SqlCommand(update, Con);
                 Query.ExecuteNonQuery();
 
                 Con.Close();
 
                 MessageBox.Show("Datos Modificados.");
 
-                ActualizarBalance(Matricula);
+                ActualizarBalance(matricula);
 
                 ESTSelectAll();
 
@@ -169,15 +158,15 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnMCEliminar_Click(object sender, EventArgs e)
+        private void BtnMCEliminar_Click(object sender, EventArgs e)
         {
-            string Numero = txtMCNumero.Text;
+            string numero = txtMCNumero.Text;
 
             try
             {
                 Con.Open();
 
-                string Delete = "DELETE FROM MovimientoDeCaja WHERE NO_MovimientoCaja = '" + Numero + "'";
+                string Delete = "DELETE FROM MovimientoDeCaja WHERE NO_MovimientoCaja = '" + numero + "'";
                 SqlCommand Query = new SqlCommand(Delete, Con);
                 Query.ExecuteNonQuery();
 
@@ -198,17 +187,17 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void btnMCLimpiar_Click(object sender, EventArgs e)
+        private void BtnMCLimpiar_Click(object sender, EventArgs e)
         {
             LimpiarCampos();
         }
 
-        private void btnMCBuscar_Click(object sender, EventArgs e)
+        private void BtnMCBuscar_Click(object sender, EventArgs e)
         {
             ESTSelectAll();
         }
 
-        private void dtgMovimientos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DtgMovimientos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow Row = dtgMovimientos.CurrentRow;
             txtMCNumero.Text = Row.Cells[0].Value.ToString();
@@ -235,7 +224,6 @@ namespace Caja_UNAPEC
             cbxMCEstado.SelectedIndex = 0;
             dtpMCFechaPago.Value = DateTime.Now;
 
-
             HabilitarBotones("A");
         }
         private void HabilitarBotones(string C)
@@ -260,7 +248,6 @@ namespace Caja_UNAPEC
             {
                 return "NO_MovimientoCaja";
             }
-
             else if (cbxMCCriterio.Text == "Servicio")
             {
                 return "Nombre_Servicio";
@@ -297,59 +284,56 @@ namespace Caja_UNAPEC
             else return "null";
         }
 
-        private static Random Generar = new Random();
+        private static readonly Random Generar = new Random();
         public string ObtenerNumero()
         {
-            bool Existe = true;
-            string Numero = null;
+            bool existe = true;
+            string numero = null;
 
             Con.Open();
 
-            while (Existe == true){
-
+            while (existe == true) {
                 const string chars = "0123456789";
-                Numero = DateTime.Now.ToString("yy") + DateTime.Now.ToString("MM") + DateTime.Now.ToString("dd") + "-";
-                Numero += new string(Enumerable.Repeat(chars, 10).Select(s => s[Generar.Next(s.Length)]).ToArray());
+                numero = DateTime.Now.ToString("yy") + DateTime.Now.ToString("MM") + DateTime.Now.ToString("dd") + "-";
+                numero += new string(Enumerable.Repeat(chars, 10).Select(s => s[Generar.Next(s.Length)]).ToArray());
 
-                string NumeroDB = "SELECT NO_MovimientoCaja AS Movimiento FROM MovimientoDeCaja WHERE NO_MovimientoCaja = '" + Numero + "'";
+                string numeroDB = "SELECT NO_MovimientoCaja AS Movimiento FROM MovimientoDeCaja WHERE NO_MovimientoCaja = '" + numero + "'";
 
-                SqlDataAdapter DA = new SqlDataAdapter(NumeroDB, Con);
+                SqlDataAdapter DA = new SqlDataAdapter(numeroDB, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
                 dtgMovimientos.DataSource = DT;
 
-                DataRow[] Rows = DT.Select("Movimiento='" + Numero + "'");
+                DataRow[] Rows = DT.Select("Movimiento='" + numero + "'");
+
                 if (Rows.Length > 0)
                 {
-                    Existe = true;
+                    existe = true;
                 }
                 else
                 {
-                    Existe = false;
+                    existe = false;
                 }
-
             }
-            Con.Close();
-            return Numero;
-        }
 
+            Con.Close();
+            return numero;
+        }
 
         private string ObtenerServicio()
         {
-
             try
             {
                 Con.Open();
-                string Select = "SELECT ID_Servicio, Monto_Servicio FROM Servicios WHERE Nombre_Servicio = '" + cbxMCServicio.Text + "'";
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT ID_Servicio, Monto_Servicio FROM Servicios WHERE Nombre_Servicio = '" + cbxMCServicio.Text + "'";
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
 
-                string Servicio = DT.Rows[0][0].ToString();
+                string servicio = DT.Rows[0][0].ToString();
 
                 Con.Close();
-                return Servicio;
-
+                return servicio;
             }
             catch (Exception Ex)
             {
@@ -357,20 +341,18 @@ namespace Caja_UNAPEC
                 MessageBox.Show("Error al obtener el código de del servicio.\n" + Ex.Message);
                 return null;
             }
-
-
         }
-        string[,] Servicios = null;
+
+        string[,] servicios = null;
         private void ObtenerServicios()
         {
-
             cbxMCServicio.Items.Clear();
 
             try
             {
                 Con.Open();
-                string Select = "SELECT Nombre_Servicio AS Servicio, Monto_Servicio AS Monto  FROM Servicios ORDER BY Nombre_Servicio";
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT Nombre_Servicio AS Servicio, Monto_Servicio AS Monto  FROM Servicios ORDER BY Nombre_Servicio";
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
 
@@ -381,23 +363,17 @@ namespace Caja_UNAPEC
 
                 int length = DT.Rows.Count + 1;
 
-                Servicios = new string[length, 2];
+                servicios = new string[length, 2];
 
                 for (int i = 0; i <= DT.Rows.Count - 1; i++)
                 {
-
                     DataRow DR = DT.Rows[i];
 
-                    Servicios[i,0] = DR["Servicio"].ToString();
-                    Servicios[i,1] = DR["Monto"].ToString();
-
+                    servicios[i,0] = DR["Servicio"].ToString();
+                    servicios[i,1] = DR["Monto"].ToString();
                 }
 
-                
-
                 Con.Close();
-
-                
             }
             catch (Exception Ex)
             {
@@ -408,20 +384,18 @@ namespace Caja_UNAPEC
 
         private string ObtenerDocumento()
         {
-
             try
             {
                 Con.Open();
-                string Select = "SELECT ID_TipoDoc FROM Tipo_Documento WHERE Nombre_TipoDoc = '" + cbxMCDocumento.Text + "'";
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT ID_TipoDoc FROM Tipo_Documento WHERE Nombre_TipoDoc = '" + cbxMCDocumento.Text + "'";
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
 
-                string Documento = DT.Rows[0][0].ToString();
+                string documento = DT.Rows[0][0].ToString();
 
                 Con.Close();
-                return Documento;
-
+                return documento;
             }
             catch (Exception Ex)
             {
@@ -429,20 +403,17 @@ namespace Caja_UNAPEC
                 MessageBox.Show("Error al obtener el código del documento.\n" + Ex.Message);
                 return null;
             }
-
-
         }
 
         private void ObtenerDocumentos()
         {
-
             cbxMCDocumento.Items.Clear();
 
             try
             {
                 Con.Open();
-                string Select = "SELECT Nombre_TipoDoc AS Documento FROM Tipo_Documento ORDER BY Nombre_TipoDoc";
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT Nombre_TipoDoc AS Documento FROM Tipo_Documento ORDER BY Nombre_TipoDoc";
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
 
@@ -450,7 +421,6 @@ namespace Caja_UNAPEC
                 {
                     cbxMCDocumento.Items.Add(DR["Documento"].ToString()); ;
                 }
-
 
                 Con.Close();
             }
@@ -461,18 +431,15 @@ namespace Caja_UNAPEC
             }
         }
 
-        
-
         private void ObtenerEstudiantes()
         {
-
             cbxMCSolicitante.Items.Clear();
 
             try
             {
                 Con.Open();
-                string Select = "SELECT Matricula_Estudiante AS Estudiante FROM Estudiante ORDER BY Matricula_Estudiante";
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT Matricula_Estudiante AS Estudiante FROM Estudiante ORDER BY Matricula_Estudiante";
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
 
@@ -480,7 +447,6 @@ namespace Caja_UNAPEC
                 {
                     cbxMCSolicitante.Items.Add(DR["Estudiante"].ToString()); ;
                 }
-
 
                 Con.Close();
             }
@@ -493,20 +459,18 @@ namespace Caja_UNAPEC
 
         private string ObtenerEmpleado()
         {
-
             try
             {
                 Con.Open();
-                string Select = "SELECT Cedula_Empleado FROM Empleado WHERE Nombre_Empleado = '" + cbxMCEncargado.Text + "'";
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT Cedula_Empleado FROM Empleado WHERE Nombre_Empleado = '" + cbxMCEncargado.Text + "'";
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
 
-                string Empleado = DT.Rows[0][0].ToString();
+                string empleado = DT.Rows[0][0].ToString();
 
                 Con.Close();
-                return Empleado;
-
+                return empleado;
             }
             catch (Exception Ex)
             {
@@ -514,20 +478,17 @@ namespace Caja_UNAPEC
                 MessageBox.Show("Error al obtener el código del empleado.\n" + Ex.Message);
                 return null;
             }
-
-
         }
 
         private void ObtenerEmpleados()
         {
-
             cbxMCEncargado.Items.Clear();
 
             try
             {
                 Con.Open();
-                string Select = "SELECT Nombre_Empleado AS Empleado FROM Empleado ORDER BY Nombre_Empleado";
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT Nombre_Empleado AS Empleado FROM Empleado ORDER BY Nombre_Empleado";
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
 
@@ -535,7 +496,6 @@ namespace Caja_UNAPEC
                 {
                     cbxMCEncargado.Items.Add(DR["Empleado"].ToString()); ;
                 }
-
 
                 Con.Close();
             }
@@ -548,20 +508,18 @@ namespace Caja_UNAPEC
 
         private string ObtenerFormaDePago()
         {
-
             try
             {
                 Con.Open();
-                string Select = "SELECT ID_FormaDePago FROM FormaDePago WHERE Nombre_FormaDePago = '" + cbxMCFormaPago.Text + "'";
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT ID_FormaDePago FROM FormaDePago WHERE Nombre_FormaDePago = '" + cbxMCFormaPago.Text + "'";
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
 
-                string FormaPago = DT.Rows[0][0].ToString();
+                string formaPago = DT.Rows[0][0].ToString();
 
                 Con.Close();
-                return FormaPago;
-
+                return formaPago;
             }
             catch (Exception Ex)
             {
@@ -569,20 +527,17 @@ namespace Caja_UNAPEC
                 MessageBox.Show("Error al obtener el código de la forma de pago.\n" + Ex.Message);
                 return null;
             }
-
-
         }
 
         private void ObtenerFormasDePago()
         {
-
-             cbxMCFormaPago.Items.Clear();
+            cbxMCFormaPago.Items.Clear();
 
             try
             {
                 Con.Open();
-                string Select = "SELECT Nombre_FormaDePago AS FormaDePago FROM FormaDePago ORDER BY Nombre_FormaDePago";
-                SqlDataAdapter DA = new SqlDataAdapter(Select, Con);
+                string select = "SELECT Nombre_FormaDePago AS FormaDePago FROM FormaDePago ORDER BY Nombre_FormaDePago";
+                SqlDataAdapter DA = new SqlDataAdapter(select, Con);
                 DataTable DT = new DataTable();
                 DA.Fill(DT);
 
@@ -590,7 +545,6 @@ namespace Caja_UNAPEC
                 {
                     cbxMCFormaPago.Items.Add(DR["FormaDePago"].ToString()); ;
                 }
-
 
                 Con.Close();
             }
@@ -601,35 +555,34 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void cbxMCServicio_SelectedIndexChanged(object sender, EventArgs e)
+        private void CbxMCServicio_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbxMCServicio.SelectedIndex > -1 && (cbxMCEstado.SelectedIndex == -1 || cbxMCEstado.Text == "Solicitado")) { 
-                string[] Servicio = new string[Servicios.GetLength(0) - 1];
+                string[] Servicio = new string[servicios.GetLength(0) - 1];
 
-                for (int i = 0; i < Servicios.GetLength(0) - 1; i++)
+                for (int i = 0; i < servicios.GetLength(0) - 1; i++)
                 {
-                    Servicio[i] = Servicios[i, 0];
+                    Servicio[i] = servicios[i, 0];
                 }
 
                 int index = Array.IndexOf(Servicio, cbxMCServicio.Text);
 
-                txtMCMonto.Text = Servicios[index, 1];
+                txtMCMonto.Text = servicios[index, 1];
             } 
             else { txtMCMonto.Text = "0"; }
         }
 
-        private void ActualizarBalance(string Matricula)
+        private void ActualizarBalance(string matricula)
         {
             try
             {
-
                 Con.Open();
 
-                string Update = "UPDATE Estudiante SET Balance_Estudiante = Total";
-                Update += " FROM(SELECT SUM(Monto_MovimientoCaja) AS Total, Estudiante.Matricula_Estudiante FROM MovimientoDeCaja, Estudiante WHERE MovimientoDeCaja.Matricula_Estudiante = Estudiante.Matricula_Estudiante GROUP BY Estudiante.Matricula_Estudiante) AS Total";
-                Update += " WHERE Estudiante.Matricula_Estudiante = Total.Matricula_Estudiante AND Estudiante.Matricula_Estudiante = " + Matricula;
+                string update = "UPDATE Estudiante SET Balance_Estudiante = Total";
+                update += " FROM(SELECT SUM(Monto_MovimientoCaja) AS Total, Estudiante.Matricula_Estudiante FROM MovimientoDeCaja, Estudiante WHERE MovimientoDeCaja.Matricula_Estudiante = Estudiante.Matricula_Estudiante GROUP BY Estudiante.Matricula_Estudiante) AS Total";
+                update += " WHERE Estudiante.Matricula_Estudiante = Total.Matricula_Estudiante AND Estudiante.Matricula_Estudiante = " + matricula;
 
-                SqlCommand Query = new SqlCommand(Update, Con);
+                SqlCommand Query = new SqlCommand(update, Con);
                 Query.ExecuteNonQuery();
 
                 Con.Close();
@@ -643,42 +596,41 @@ namespace Caja_UNAPEC
             }
         }
 
-        private void cbxMCEstado_SelectedIndexChanged(object sender, EventArgs e)
+        private void CbxMCEstado_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbxMCServicio.SelectedIndex > -1 && (cbxMCEstado.SelectedIndex == -1 || cbxMCEstado.Text == "Solicitado"))
             {
-                string[] Servicio = new string[Servicios.GetLength(0) - 1];
+                string[] servicio = new string[servicios.GetLength(0) - 1];
 
-                for (int i = 0; i < Servicios.GetLength(0) - 1; i++)
+                for (int i = 0; i < servicios.GetLength(0) - 1; i++)
                 {
-                    Servicio[i] = Servicios[i, 0];
+                    servicio[i] = servicios[i, 0];
                 }
 
-                int index = Array.IndexOf(Servicio, cbxMCServicio.Text);
+                int index = Array.IndexOf(servicio, cbxMCServicio.Text);
 
-                txtMCMonto.Text = Servicios[index, 1];
+                txtMCMonto.Text = servicios[index, 1];
             }
             else { txtMCMonto.Text = "0"; }
         }
 
-        private void ExportaExcel(DataGridView DGT, string Nombre)
+        private void ExportaExcel(DataGridView DGT, string nombre)
         {
             try
             {
-
-                StreamWriter SW = new StreamWriter(Nombre, false, System.Text.Encoding.GetEncoding(1252));
+                StreamWriter SW = new StreamWriter(nombre, false, System.Text.Encoding.GetEncoding(1252));
 
                 SW.WriteLine("sep=,");
 
-                string Header = "";
+                string header = "";
 
                 foreach (DataGridViewColumn col in DGT.Columns)
                 {
-                    Header += col.Name + ",";
+                    header += col.Name + ",";
                 }
-                Header = Header.Remove(Header.Length - 1);
+                header = header.Remove(header.Length - 1);
 
-                SW.WriteLine(Header);
+                SW.WriteLine(header);
 
                 foreach (DataRow DR in DT.Rows)
                 {
@@ -697,30 +649,28 @@ namespace Caja_UNAPEC
             {
                 MessageBox.Show("Error al exportar el archivo.\n" + Ex.Message);
             }
-
-
         }
 
-        private void btnMCExportar_Click(object sender, EventArgs e)
+        private void BtnMCExportar_Click(object sender, EventArgs e)
         {
-            string Archivo = "";
+            SaveFileDialog ExportarEn = new SaveFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                Title = "Guardar en",
+                CheckFileExists = false,
+                CheckPathExists = true,
+                Filter = "Archivo de Exel (*.csv)|*.csv|Todos los arvhivos (*.*)|*.*",
+                DefaultExt = ".csv",
+                FilterIndex = 1,
+                RestoreDirectory = true,
+                FileName = "Movimientos"
+            };
 
-            SaveFileDialog ExportarEn = new SaveFileDialog();
-            ExportarEn.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            ExportarEn.Title = "Guardar en";
-            ExportarEn.CheckFileExists = false;
-            ExportarEn.CheckPathExists = true;
-            ExportarEn.Filter = "Archivo de Exel (*.csv)|*.csv|Todos los arvhivos (*.*)|*.*";
-            ExportarEn.DefaultExt = ".csv";
-            ExportarEn.FilterIndex = 1;
-            ExportarEn.RestoreDirectory = true;
-            ExportarEn.FileName = "Movimientos";
             if (ExportarEn.ShowDialog() == DialogResult.OK)
             {
-                Archivo = ExportarEn.FileName;
-                ExportaExcel(dtgMovimientos, Archivo);
+                string archivo = ExportarEn.FileName;
+                ExportaExcel(dtgMovimientos, archivo);
             }
-
         }
     }
 }

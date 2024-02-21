@@ -139,7 +139,7 @@
             this.btnEMPEliminar.TabIndex = 24;
             this.btnEMPEliminar.Text = "Eliminar";
             this.btnEMPEliminar.UseVisualStyleBackColor = false;
-            this.btnEMPEliminar.Click += new System.EventHandler(this.btnEMPEliminar_Click);
+            this.btnEMPEliminar.Click += new System.EventHandler(this.BtnEMPEliminar_Click);
             // 
             // btnEMPGuardar
             // 
@@ -154,7 +154,7 @@
             this.btnEMPGuardar.TabIndex = 23;
             this.btnEMPGuardar.Text = "Guardar";
             this.btnEMPGuardar.UseVisualStyleBackColor = false;
-            this.btnEMPGuardar.Click += new System.EventHandler(this.btnEMPGuardar_Click);
+            this.btnEMPGuardar.Click += new System.EventHandler(this.BtnEMPGuardar_Click);
             // 
             // btnEMPModificar
             // 
@@ -169,7 +169,7 @@
             this.btnEMPModificar.TabIndex = 22;
             this.btnEMPModificar.Text = "Modificar";
             this.btnEMPModificar.UseVisualStyleBackColor = false;
-            this.btnEMPModificar.Click += new System.EventHandler(this.btnEMPModificar_Click);
+            this.btnEMPModificar.Click += new System.EventHandler(this.BtnEMPModificar_Click);
             // 
             // btnEMPLimpiar
             // 
@@ -184,7 +184,7 @@
             this.btnEMPLimpiar.TabIndex = 3;
             this.btnEMPLimpiar.Text = "Limpiar";
             this.btnEMPLimpiar.UseVisualStyleBackColor = false;
-            this.btnEMPLimpiar.Click += new System.EventHandler(this.btnEMPLimpiar_Click);
+            this.btnEMPLimpiar.Click += new System.EventHandler(this.BtnEMPLimpiar_Click);
             // 
             // label9
             // 
@@ -437,7 +437,7 @@
             this.btnEMPBuscar.TabIndex = 32;
             this.btnEMPBuscar.Text = "Buscar";
             this.btnEMPBuscar.UseVisualStyleBackColor = false;
-            this.btnEMPBuscar.Click += new System.EventHandler(this.btnEMPBuscar_Click);
+            this.btnEMPBuscar.Click += new System.EventHandler(this.BtnEMPBuscar_Click);
             // 
             // dtgEmpleados
             // 
@@ -472,7 +472,7 @@
             this.dtgEmpleados.RowTemplate.Height = 24;
             this.dtgEmpleados.Size = new System.Drawing.Size(579, 450);
             this.dtgEmpleados.TabIndex = 34;
-            this.dtgEmpleados.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dtgEmpleados_CellDoubleClick);
+            this.dtgEmpleados.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DtgEmpleados_CellDoubleClick);
             // 
             // btnEMPExportar
             // 
@@ -488,7 +488,7 @@
             this.btnEMPExportar.TabIndex = 35;
             this.btnEMPExportar.Text = "Exportar";
             this.btnEMPExportar.UseVisualStyleBackColor = false;
-            this.btnEMPExportar.Click += new System.EventHandler(this.btnEMPExportar_Click);
+            this.btnEMPExportar.Click += new System.EventHandler(this.BtnEMPExportar_Click);
             // 
             // Empleado
             // 
